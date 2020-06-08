@@ -1,0 +1,305 @@
+[1591545030.974][INFO]: Starting ChromeDriver 83.0.4103.39 (ccbf011cb2d2b19b506d844400483861342c20cd-refs/branch-heads/4103@{#416}) on port 65196
+[1591545030.975][INFO]: Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+[1591545031.498][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND InitSession {
+   "capabilities": {
+      "alwaysMatch": {
+         "browserName": "chrome",
+         "goog:chromeOptions": {
+            "args": [ "--proxy-server='direct://'", "--proxy-bypass-list=*" ],
+            "excludeSwitches": [ "enable-logging" ],
+            "extensions": [  ]
+         },
+         "platformName": "any"
+      },
+      "firstMatch": [ {
+
+      } ]
+   },
+   "desiredCapabilities": {
+      "browserName": "chrome",
+      "goog:chromeOptions": {
+         "args": [ "--proxy-server='direct://'", "--proxy-bypass-list=*" ],
+         "excludeSwitches": [ "enable-logging" ],
+         "extensions": [  ]
+      },
+      "platform": "ANY",
+      "version": ""
+   }
+}
+[1591545031.501][INFO]: Populating Preferences file: {
+   "alternate_error_pages": {
+      "enabled": false
+   },
+   "autofill": {
+      "enabled": false
+   },
+   "browser": {
+      "check_default_browser": false
+   },
+   "distribution": {
+      "import_bookmarks": false,
+      "import_history": false,
+      "import_search_engine": false,
+      "make_chrome_default_for_user": false,
+      "skip_first_run_ui": true
+   },
+   "dns_prefetching": {
+      "enabled": false
+   },
+   "profile": {
+      "content_settings": {
+         "pattern_pairs": {
+            "https://*,*": {
+               "media-stream": {
+                  "audio": "Default",
+                  "video": "Default"
+               }
+            }
+         }
+      },
+      "default_content_setting_values": {
+         "geolocation": 1
+      },
+      "default_content_settings": {
+         "geolocation": 1,
+         "mouselock": 1,
+         "notifications": 1,
+         "popups": 1,
+         "ppapi-broker": 1
+      },
+      "password_manager_enabled": false
+   },
+   "safebrowsing": {
+      "enabled": false
+   },
+   "search": {
+      "suggest_enabled": false
+   },
+   "translate": {
+      "enabled": false
+   }
+}
+[1591545031.502][INFO]: Populating Local State file: {
+   "background_mode": {
+      "enabled": false
+   },
+   "ssl": {
+      "rev_checking": {
+         "enabled": false
+      }
+   }
+}
+[1591545031.509][INFO]: Launching chrome: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --enable-automation --enable-blink-features=ShadowDOMV0 --load-extension="C:\Users\RICKYG~1\AppData\Local\Temp\scoped_dir13440_1181417836\internal" --log-level=0 --no-first-run --password-store=basic --proxy-bypass-list=* --proxy-server='direct://' --remote-debugging-port=0 --test-type=webdriver --use-mock-keychain --user-data-dir="C:\Users\RICKYG~1\AppData\Local\Temp\scoped_dir13440_605913610" data:,
+[1591545032.130][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[1591545034.141][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE InitSession {
+   "capabilities": {
+      "acceptInsecureCerts": false,
+      "browserName": "chrome",
+      "browserVersion": "83.0.4103.97",
+      "chrome": {
+         "chromedriverVersion": "83.0.4103.39 (ccbf011cb2d2b19b506d844400483861342c20cd-refs/branch-heads/4103@{#416})",
+         "userDataDir": "C:\\Users\\RICKYG~1\\AppData\\Local\\Temp\\scoped_dir13440_605913610"
+      },
+      "goog:chromeOptions": {
+         "debuggerAddress": "localhost:65203"
+      },
+      "networkConnectionEnabled": false,
+      "pageLoadStrategy": "normal",
+      "platformName": "windows",
+      "proxy": {
+
+      },
+      "setWindowRect": true,
+      "strictFileInteractability": false,
+      "timeouts": {
+         "implicit": 0,
+         "pageLoad": 300000,
+         "script": 30000
+      },
+      "unhandledPromptBehavior": "dismiss and notify",
+      "webauthn:virtualAuthenticators": true
+   },
+   "sessionId": "35c4b6f84ee2c584295eb6da5600b9ec"
+}
+[1591545034.144][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND Navigate {
+   "url": "https://www.tokopedia.com/search?st=product&q=LG TV"
+}
+[1591545034.144][INFO]: Waiting for pending navigations...
+[1591545034.147][INFO]: Done waiting for pending navigations. Status: ok
+[1591545034.371][INFO]: Waiting for pending navigations...
+[1591545035.433][INFO]: Done waiting for pending navigations. Status: ok
+[1591545035.433][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE Navigate
+[1591545035.435][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindElement {
+   "using": "xpath",
+   "value": "//span[@class='css-1bjwylw']"
+}
+[1591545035.435][INFO]: Waiting for pending navigations...
+[1591545035.746][INFO]: Done waiting for pending navigations. Status: ok
+[1591545036.128][INFO]: Waiting for pending navigations...
+[1591545036.657][INFO]: Done waiting for pending navigations. Status: ok
+[1591545036.657][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindElement ERROR no such element: Unable to locate element: {"method":"xpath","selector":"//span[@class='css-1bjwylw']"}
+  (Session info: chrome=83.0.4103.97)
+[1591545037.159][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindElement {
+   "using": "xpath",
+   "value": "//span[@class='css-1bjwylw']"
+}
+[1591545037.159][INFO]: Waiting for pending navigations...
+[1591545037.285][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.309][INFO]: Waiting for pending navigations...
+[1591545037.310][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.310][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindElement {
+   "element-6066-11e4-a52e-4f735466cecf": "2896b1f0-40d5-4bf6-bf7e-7d1d39144174"
+}
+[1591545037.312][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindElements {
+   "using": "xpath",
+   "value": "//div[@class=\"css-1g20a2m\"]"
+}
+[1591545037.312][INFO]: Waiting for pending navigations...
+[1591545037.313][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.331][INFO]: Waiting for pending navigations...
+[1591545037.332][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.332][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindElements [ {
+   "element-6066-11e4-a52e-4f735466cecf": "72569e54-3c80-440c-bbb4-ae007b486dba"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "f6ffb742-f6f6-406b-8904-59837be6646f"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "591223c6-9d7c-4104-a625-2d271183f700"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "6cf159fb-ca80-41ff-8c03-ff4eed40bb8a"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "578763e0-3e54-49f0-a232-2e3a72e193ab"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "9148a76d-8d97-4e97-bf83-135c23003145"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "8dc5f42c-d359-4e3a-b60b-f1774a127212"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "069e765a-5d6f-43a2-8bce-7d9fd582e1b8"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "dfbee1f8-1a99-4c18-b1ff-1c8d49f6d0e3"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "391530a4-a3f0-4e96-84f0-b7e8505e4ea7"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "53c2918b-bf10-4a07-94aa-295029c04e7b"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "42aec76e-b643-487a-9136-55f9dda5a35f"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "427db2cf-86b7-4162-aed2-b5d739270bd8"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "c051aced-8c58-4d3a-bc11-8a09b3542c8a"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "c747e0a1-d6ab-4582-beed-95306c653cb3"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "51adcb90-4f29-49d8-a6e0-b6c0183940e1"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "24fa77b3-d118-42cf-b1bf-ff6016de58da"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "47613dbb-d90c-4d3d-92a4-4cdf3682757f"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "2efe4b4b-f7bf-421c-afa2-72176c713dc9"
+}, "..." ]
+[1591545037.334][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindChildElement {
+   "id": "72569e54-3c80-440c-bbb4-ae007b486dba",
+   "using": "xpath",
+   "value": ".//span[@class='css-1bjwylw']"
+}
+[1591545037.334][INFO]: Waiting for pending navigations...
+[1591545037.335][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.347][INFO]: Waiting for pending navigations...
+[1591545037.348][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.348][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindChildElement {
+   "element-6066-11e4-a52e-4f735466cecf": "2896b1f0-40d5-4bf6-bf7e-7d1d39144174"
+}
+[1591545037.349][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND GetElementText {
+   "id": "2896b1f0-40d5-4bf6-bf7e-7d1d39144174"
+}
+[1591545037.349][INFO]: Waiting for pending navigations...
+[1591545037.350][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.360][INFO]: Waiting for pending navigations...
+[1591545037.361][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.361][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE GetElementText "LG 43UM7100 UHD 4K SMART TV 43 Inch"
+[1591545037.362][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindChildElement {
+   "id": "72569e54-3c80-440c-bbb4-ae007b486dba",
+   "using": "xpath",
+   "value": ".//span[@class='css-o5uqvq']"
+}
+[1591545037.362][INFO]: Waiting for pending navigations...
+[1591545037.364][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.373][INFO]: Waiting for pending navigations...
+[1591545037.375][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.375][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindChildElement {
+   "element-6066-11e4-a52e-4f735466cecf": "d15341c4-3757-450e-9cf4-b45925411bd7"
+}
+[1591545037.376][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND GetElementText {
+   "id": "d15341c4-3757-450e-9cf4-b45925411bd7"
+}
+[1591545037.376][INFO]: Waiting for pending navigations...
+[1591545037.377][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.388][INFO]: Waiting for pending navigations...
+[1591545037.389][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.389][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE GetElementText "Rp 4.500.000"
+[1591545037.390][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindChildElement {
+   "id": "72569e54-3c80-440c-bbb4-ae007b486dba",
+   "using": "xpath",
+   "value": ".//span[@class='css-1kr22w3']"
+}
+[1591545037.390][INFO]: Waiting for pending navigations...
+[1591545037.391][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.401][INFO]: Waiting for pending navigations...
+[1591545037.402][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.402][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindChildElement {
+   "element-6066-11e4-a52e-4f735466cecf": "b35228c4-144e-4ecd-a527-2350560fbf7f"
+}
+[1591545037.403][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND GetElementText {
+   "id": "b35228c4-144e-4ecd-a527-2350560fbf7f"
+}
+[1591545037.403][INFO]: Waiting for pending navigations...
+[1591545037.405][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.416][INFO]: Waiting for pending navigations...
+[1591545037.417][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.417][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE GetElementText "Jakarta Utara"
+[1591545037.419][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND ClickElement {
+   "id": "72569e54-3c80-440c-bbb4-ae007b486dba"
+}
+[1591545037.419][INFO]: Waiting for pending navigations...
+[1591545037.420][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.809][INFO]: Waiting for pending navigations...
+[1591545037.823][INFO]: Done waiting for pending navigations. Status: ok
+[1591545037.823][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE ClickElement
+[1591545040.826][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindElement {
+   "using": "xpath",
+   "value": "//a[@class='css-xmjuvc']"
+}
+[1591545040.830][INFO]: Waiting for pending navigations...
+[1591545040.833][INFO]: Done waiting for pending navigations. Status: ok
+[1591545040.842][INFO]: Waiting for pending navigations...
+[1591545040.843][INFO]: Done waiting for pending navigations. Status: ok
+[1591545040.843][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindElement {
+   "element-6066-11e4-a52e-4f735466cecf": "82795d8b-c337-4264-8a56-057dd72aa0a5"
+}
+[1591545040.844][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND GetElementText {
+   "id": "82795d8b-c337-4264-8a56-057dd72aa0a5"
+}
+[1591545040.844][INFO]: Waiting for pending navigations...
+[1591545040.844][INFO]: Done waiting for pending navigations. Status: ok
+[1591545040.854][INFO]: Waiting for pending navigations...
+[1591545040.855][INFO]: Done waiting for pending navigations. Status: ok
+[1591545040.855][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE GetElementText "Takkasimura Electronic"
+[1591545040.857][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND GoBack {
+
+}
+[1591545040.857][INFO]: Waiting for pending navigations...
+[1591545040.858][INFO]: Done waiting for pending navigations. Status: ok
+[1591545041.418][INFO]: Waiting for pending navigations...
+[1591545041.796][INFO]: Done waiting for pending navigations. Status: ok
+[1591545041.796][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE GoBack
+[1591545044.799][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] COMMAND FindChildElement {
+   "id": "f6ffb742-f6f6-406b-8904-59837be6646f",
+   "using": "xpath",
+   "value": ".//span[@class='css-1bjwylw']"
+}
+[1591545044.803][INFO]: Waiting for pending navigations...
+[1591545044.807][INFO]: Done waiting for pending navigations. Status: ok
+[1591545044.815][INFO]: Waiting for pending navigations...
+[1591545044.816][INFO]: Done waiting for pending navigations. Status: ok
+[1591545044.816][INFO]: [35c4b6f84ee2c584295eb6da5600b9ec] RESPONSE FindChildElement ERROR stale element reference: element is not attached to the page document
+  (Session info: chrome=83.0.4103.97)
