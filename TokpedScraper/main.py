@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 
-from prodLists import ProdList
+from prodLists import prodObj 
 
 chrome_path = 'D:\\chromedriver.exe'
 
@@ -18,11 +18,16 @@ srcResult_xpath             = '//div[@class="css-1g20a2m"]'
 watchEle_xpath              = "//span[@class='css-1bjwylw']"
 nextPage_xpath              = "//i[@class='css-98hn3t e19tp72t1']"
 
+watchEleListingPage_xpath   = "//div[@class='css-1gomreu']"
+
 listingName_xpath           = ".//span[@class='css-1bjwylw']"
 listingPrice_xpath          = ".//span[@class='css-o5uqvq']"
 listingLoc_xpath            = ".//span[@class='css-1kr22w3']"
-listingPage_xpath           = ".//a[@class='css-89jnbj']"
+listingUrl_xpath            = ".//a[@class='css-89jnbj']"
 
+reviewScoreAndCount_xpath   = "//span[@class='css-4g6ai3']/span"
+soldCount_xpath             = "//b[@data-testid='lblPDPDetailProductSoldCounter']"
+seenCount_xpath             = "//span[@data-testid='lblPDPDetailProductSeenCounter']/b"
 listingStore_xpath          = "//a[@class='css-xmjuvc']"
 
 # listingStoreAndLoc_xpath    = ".//div[@class='css-vbihp9']"
@@ -71,11 +76,87 @@ class ScrapeDriver:
         except TimeoutException as e:
             print(e)
 
+    def getDataFromListingPage(self, pObj):
+        defIntValue = 0
+        defStrValue = "-"
+
+        # pObj.soldCount = 9999
+        # pObj.seenProduct = 9999
+        # pObj.reviewScore = 9999
+        # pObj.reviewCount = 9999
+        # pObj.storeName = "-"
+
+        self.openUrl(pObj.listingUrl, watchEleListingPage_xpath)
+
+        soldEle = self.driver.find_elements_by_xpath(soldCount_xpath)
+        seenEle = self.driver.find_elements_by_xpath(seenCount_xpath)
+        rScoreEle = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)
+        rCountEle = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)
+        sNameEle = self.driver.find_elements_by_xpath(listingStore_xpath)
+
+        if (len(soldEle) > 0):
+            pObj.soldCount = soldEle[0].text
+        else:
+            pObj.soldCount = defIntValue
+        
+        if (len(seenEle) > 0):
+            pObj.seenProduct = seenEle[0].text
+        else:
+            pObj.seenProduct = defIntValue
+
+        if (len(rScoreEle) > 0):
+            pObj.reviewScore = rScoreEle[0].text
+        else:
+            pObj.reviewScore = defIntValue
+
+        if (len(rCountEle) > 0):
+            pObj.reviewCount = rCountEle[1].text
+        else:
+            pObj.reviewCount = defIntValue
+
+        if (len(sNameEle) > 0):
+            pObj.storeName = sNameEle[0].text
+        else:
+            pObj.storeName = defIntValue
+
+        # pObj.soldCount = self.driver.find_element_by_xpath(soldCount_xpath).text
+        # pObj.seenProduct = self.driver.find_element_by_xpath(seenCount_xpath).text
+        # pObj.reviewScore = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)[0].text
+        # pObj.reviewCount = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)[1].text
+        # pObj.storeName = self.driver.find_element_by_xpath(listingStore_xpath).text
+
     def scrapeProduct(self, productQuery):
-        self.driver.openUrl(searchUrl+productQuery, watchEle_xpath)
+        self.openUrl(searchUrl+productQuery, watchEle_xpath)
+
+        products = self.driver.find_elements_by_xpath(srcResult_xpath)
+
+        pList = []
+
+        for p in products:
+            pName = p.find_element_by_xpath(listingName_xpath).text
+            pPrice = p.find_element_by_xpath(listingPrice_xpath).text
+            pArea = p.find_element_by_xpath(listingLoc_xpath).text
+            pUrl = p.find_element_by_xpath(listingUrl_xpath).get_attribute('href')
+
+            pList.append(prodObj(nameProd=pName, priceProd=pPrice, storeArea=pArea, listingUrl=pUrl))
+            print(".", end="")
+
+        for p in pList:
+            self.getDataFromListingPage(p)
+            print(".", end="")
+        
+        for p in pList:
+            p.toString()
+
+
 
 d = ScrapeDriver()
 
+d.scrapeProduct("2060 Super")
+
+d.scrapeProduct("2070 Super")
+
+d.scrapeProduct("1660 Super")
 
 # d.openUrl(searchUrl+searchQuery,watchEle_xpath)
 # products = d.driver.find_elements_by_xpath(srcResult_xpath)
