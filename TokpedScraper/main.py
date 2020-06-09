@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 
 from prodLists import prodObj 
+import myUtil
 
 chrome_path = 'D:\\chromedriver.exe'
 
@@ -64,17 +65,15 @@ class ScrapeDriver:
         except TimeoutException as e:
             print(e)
 
-    def goBack(self, watchXpath):
-        self.driver.back()
-        # self.driver.execute_script("window.history.go(-1)")
-
-        try:
-            element = WebDriverWait(self.driver, 60).until(\
-                EC.presence_of_element_located((By.XPATH, watchXpath)))
-            
-            print("OK")
-        except TimeoutException as e:
-            print(e)
+    # def goBack(self, watchXpath):
+    #     self.driver.back()
+    #     # self.driver.execute_script("window.history.go(-1)")
+    #     try:
+    #         element = WebDriverWait(self.driver, 60).until(\
+    #             EC.presence_of_element_located((By.XPATH, watchXpath)))
+    #         print("OK")
+    #     except TimeoutException as e:
+    #         print(e)
 
     def getDataFromListingPage(self, pObj):
         defIntValue = 0
@@ -95,22 +94,23 @@ class ScrapeDriver:
         sNameEle = self.driver.find_elements_by_xpath(listingStore_xpath)
 
         if (len(soldEle) > 0):
-            pObj.soldCount = soldEle[0].text
+            
+            pObj.soldCount = myUtil.filterNonNumericToInt(soldEle[0].text)
         else:
             pObj.soldCount = defIntValue
         
         if (len(seenEle) > 0):
-            pObj.seenProduct = seenEle[0].text
+            pObj.seenProduct = myUtil.filterNonNumericToInt(seenEle[0].text)
         else:
             pObj.seenProduct = defIntValue
 
         if (len(rScoreEle) > 0):
-            pObj.reviewScore = rScoreEle[0].text
+            pObj.reviewScore = myUtil.filterNonNumericToInt(rScoreEle[0].text)
         else:
             pObj.reviewScore = defIntValue
 
         if (len(rCountEle) > 0):
-            pObj.reviewCount = rCountEle[1].text
+            pObj.reviewCount = myUtil.filterNonNumericToInt(rCountEle[1].text)
         else:
             pObj.reviewCount = defIntValue
 
@@ -119,6 +119,7 @@ class ScrapeDriver:
         else:
             pObj.storeName = defIntValue
 
+        pObj.timestamp = int(time.time())
         # pObj.soldCount = self.driver.find_element_by_xpath(soldCount_xpath).text
         # pObj.seenProduct = self.driver.find_element_by_xpath(seenCount_xpath).text
         # pObj.reviewScore = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)[0].text
@@ -138,25 +139,50 @@ class ScrapeDriver:
             pArea = p.find_element_by_xpath(listingLoc_xpath).text
             pUrl = p.find_element_by_xpath(listingUrl_xpath).get_attribute('href')
 
+            # pPrice = int(sub(r'[^0-9]', '', pPrice))
+
+            pPrice = myUtil.filterNonNumericToInt(pPrice)
+
             pList.append(prodObj(nameProd=pName, priceProd=pPrice, storeArea=pArea, listingUrl=pUrl))
             print(".", end="")
 
+        print("")
+        
         for p in pList:
             self.getDataFromListingPage(p)
             print(".", end="")
         
-        for p in pList:
-            p.toString()
+        print("")
 
+        return pList
+        # for p in pList:
+        #     p.toString()
 
+    def processQuery(self, qName):
+        pList = self.scrapeProduct(qName)
+        myUtil.writeToCSV(qName, pList, time.time())
 
 d = ScrapeDriver()
 
-d.scrapeProduct("2060 Super")
+d.processQuery("1660 Ti")
+d.processQuery("1660 Super")
+d.processQuery("2060 Super")
+d.processQuery("2070 Super")
+d.processQuery("2080 Super")
 
-d.scrapeProduct("2070 Super")
+# pList = d.scrapeProduct("2060 Super")
+# myUtil.writeToCSV("2060 Super", pList)
 
-d.scrapeProduct("1660 Super")
+# d.scrapeProduct("2070 Super")
+
+# d.scrapeProduct("1660 Super")
+
+
+
+
+
+
+
 
 # d.openUrl(searchUrl+searchQuery,watchEle_xpath)
 # products = d.driver.find_elements_by_xpath(srcResult_xpath)
