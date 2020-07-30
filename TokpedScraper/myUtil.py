@@ -9,7 +9,9 @@ def removeSpaceFileName(strX):
     return strX.replace(" ", "_")
 
 def convTimeEpochToStr(timeX):
-    return time.strftime("%H%M%S-%Y-%b-%d", time.localtime(timeX))
+    # "%d-%b-%Y-%H%M%S"
+    # "%H%M%S-%Y-%b-%d"
+    return time.strftime("%d-%b-%Y-%H%M%S", time.localtime(timeX))
 
 def writeToCSV(qName, prodList, qTime):
     fileName = "{}_{}.csv".format(removeSpaceFileName(qName), convTimeEpochToStr(qTime))

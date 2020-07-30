@@ -120,6 +120,7 @@ class ScrapeDriver:
             pObj.storeName = defIntValue
 
         pObj.timestamp = int(time.time())
+
         # pObj.soldCount = self.driver.find_element_by_xpath(soldCount_xpath).text
         # pObj.seenProduct = self.driver.find_element_by_xpath(seenCount_xpath).text
         # pObj.reviewScore = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)[0].text
@@ -162,13 +163,43 @@ class ScrapeDriver:
         pList = self.scrapeProduct(qName)
         myUtil.writeToCSV(qName, pList, time.time())
 
+    def processListOfQuery(self, listQ):
+        for p in listQ:
+            self.processQuery(p)
+
 d = ScrapeDriver()
 
-d.processQuery("1660 Ti")
-d.processQuery("1660 Super")
-d.processQuery("2060 Super")
-d.processQuery("2070 Super")
-d.processQuery("2080 Super")
+vgaList = [     "GTX 1650",
+                "GTX 1650 Super",
+                "GTX 1660",
+                "GTX 1660 Ti",
+                "GTX 1660 Super",
+                "GTX 1080",
+                "RTX 2060",
+                "RTX 2060 Super",
+                "RTX 2070",
+                "RTX 2070 Super",
+                "RTX 2080",
+                "RTX 2080 Ti",
+                "RTX 2080 Super",
+                "RX 5700 XT",
+                "RX 5700",
+                "RX 5600 XT",
+                "RX 5600",
+                "RX 5500 XT",
+                "RX 5500"]
+
+cpuList = [     "Ryzen 5 3600",
+                "Ryzen 5 3600X",
+                "Ryzen 5 2600X",
+                "Ryzen 3 3300X",
+                "Ryzen 3 2200G",
+                "i9 9900K",
+                "i5 9600K"]
+
+d.processListOfQuery(vgaList)
+
+d.processListOfQuery(cpuList)
 
 # pList = d.scrapeProduct("2060 Super")
 # myUtil.writeToCSV("2060 Super", pList)
