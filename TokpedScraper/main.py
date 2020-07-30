@@ -1,4 +1,6 @@
 import time
+import requests
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -6,8 +8,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 
-from prodLists import prodObj 
+from prodLists import listingObj 
 import myUtil
+import listingPageExtractor as listExtract
 
 chrome_path = 'D:\\chromedriver.exe'
 
@@ -50,7 +53,7 @@ class ScrapeDriver:
 
         opts.add_experimental_option("excludeSwitches", ["enable-logging"])
 
-        driver = webdriver.Chrome(chrome_path,options=opts, service_log_path='NULL')
+        driver = webdriver.Chrome(chrome_path,options=opts, service_log_path='NULL.txt')
         return driver
         
     def __init__(self):
@@ -76,6 +79,9 @@ class ScrapeDriver:
     #         print(e)
 
     def getDataFromListingPage(self, pObj):
+        """Takes listingOBJ, open its link, extract and add listing data directly to the listingOBJ [DEPRECATED]
+        
+        This approach use a Chrome Webdriver to manually load listing page and watch each xPath of data elements, then normalize and later add it to listingOBJ"""
         defIntValue = 0
         defStrValue = "-"
 
@@ -127,6 +133,67 @@ class ScrapeDriver:
         # pObj.reviewCount = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)[1].text
         # pObj.storeName = self.driver.find_element_by_xpath(listingStore_xpath).text
 
+    def getDataFromListingPageBS(self, pObj, header=None):
+        """Takes listingOBJ, open its link, extract and add listing data directly to the listingOBJ
+        
+        This approach use Requests module to get listing page's HTML and extract data using BeautifulSoup4, then normalize and later add it to listingOBJ"""
+        defIntValue = 0
+
+        if(header == None):
+            header = {
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
+            }
+        
+        page = requests.get(pObj.listingUrl, headers=header)
+        soup = BeautifulSoup(page.text, 'html.parser')
+
+        # Not yet implemented in listingObj
+        # lblListingStock = {'data-testid' : 'lblPDPDetailProductStock'}
+
+        lblSoldCount    = {'data-testid' : 'lblPDPDetailProductSuccessRate'}
+        lblSeenCount    = {'data-testid' : 'lblPDPDetailProductSeenCounter'}
+        lblReviewScore  = {'data-testid' : 'lblPDPDetailProductRatingNumber'}
+        lblReviewCount  = {'data-testid' : 'lblPDPDetailProductRatingCounter'}
+        lblStoreName    = {'data-testid' : 'llbPDPFooterShopName'}
+
+        # These data are NOT guaranteed to be there
+        # listingStockText= soup.find(attrs=lblListingStock)
+        soldCountText   = soup.find(attrs=lblSoldCount)
+        seenCountText   = soup.find(attrs=lblSeenCount)
+        reviewScoreText = soup.find(attrs=lblReviewScore)
+        reviewCountText = soup.find(attrs=lblReviewCount)
+
+        if(soldCountText is None):
+            pObj.soldCount = defIntValue
+        else:
+            pObj.soldCount = myUtil.filterNonNumericToInt(soldCountText.get_text())
+
+        if(seenCountText is None):
+            pObj.seenProduct = defIntValue
+        else:
+            pObj.seenProduct = myUtil.filterNonNumericToInt(seenCountText.get_text())
+        
+        if(reviewScoreText is None):
+            pObj.reviewScore = defIntValue
+        else:
+            pObj.reviewScore = myUtil.filterNonNumericToInt(reviewScoreText.get_text())
+        
+        if(reviewCountText is None):
+            pObj.reviewCount = defIntValue
+        else:
+            pObj.reviewCount = myUtil.filterNonNumericToInt(reviewCountText.get_text())
+
+        # This data IS guaranteed to be there
+        storeNameText   = soup.find(attrs=lblStoreName)
+        # pObj.storeName   = soup.find(attrs=lblStoreName).get_text()
+
+        if(storeNameText is None):
+            pObj.storeName = "NoneType"
+        else:
+            pObj.storeName = storeNameText.get_text()
+
+        pObj.timestamp = int(time.time())
+
     def scrapeProduct(self, productQuery):
         self.openUrl(searchUrl+productQuery, watchEle_xpath)
 
@@ -144,13 +211,13 @@ class ScrapeDriver:
 
             pPrice = myUtil.filterNonNumericToInt(pPrice)
 
-            pList.append(prodObj(nameProd=pName, priceProd=pPrice, storeArea=pArea, listingUrl=pUrl))
+            pList.append(listingObj(nameProd=pName, priceProd=pPrice, storeArea=pArea, listingUrl=pUrl))
             print(".", end="")
 
         print("")
         
         for p in pList:
-            self.getDataFromListingPage(p)
+            self.getDataFromListingPageBS(p)
             print(".", end="")
         
         print("")
@@ -197,9 +264,14 @@ cpuList = [     "Ryzen 5 3600",
                 "i9 9900K",
                 "i5 9600K"]
 
+start = time.time()
+
 d.processListOfQuery(vgaList)
 
 d.processListOfQuery(cpuList)
+
+end = time.time()
+print("Time: {}".format(end - start))
 
 # pList = d.scrapeProduct("2060 Super")
 # myUtil.writeToCSV("2060 Super", pList)

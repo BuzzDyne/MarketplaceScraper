@@ -3,6 +3,7 @@ import time
 from re import sub
 
 def filterNonNumericToInt(strX):
+    """Takes STRING and returns only the number in the string as INTEGER"""
     return int(sub(r'[^0-9]', '', strX))
 
 def removeSpaceFileName(strX):
