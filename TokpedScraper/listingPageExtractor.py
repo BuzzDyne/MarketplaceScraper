@@ -17,11 +17,11 @@ def getListingDataTokped(url, header=None):
     """ Takes Listing Url and returns all listing data in [format] format."""
 
     if(header == None):
-        headers = {
+        header = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
         }
 
-    page = requests.get(url, headers=headers)
+    page = requests.get(url, headers=header)
     soup = BeautifulSoup(page.text, 'html.parser')
 
     lblListingName  = {'data-testid' : 'lblPDPDetailProductName'}
@@ -87,13 +87,11 @@ def getListingDataTokped(url, header=None):
     print("h: {}".format(h))
     print("i: {}".format(i))
 
-urlList = []
-urlList.append('https://www.tokopedia.com/nanokomputer/vga-zotac-gaming-geforce-rtx-2070-super-air-rtx2070-super-8gb-gddr6')
-urlList.append('https://www.tokopedia.com/nanokomputer/memory-g-skill-f4-4000c15d-16gtrg-trident-z-royal-16gb-2x8-ddr4-4000')
-urlList.append('https://www.tokopedia.com/tokorrj/safety-respirator-reusable-washable-n95')
-urlList.append('https://www.tokopedia.com/enterkomputer/galax-geforce-rtx-2070-super-ex-8gb-ddr6-1-click-oc-rgb-effect')
+# urlList = []
+# urlList.append('https://www.tokopedia.com/nanokomputer/vga-zotac-gaming-geforce-rtx-2070-super-air-rtx2070-super-8gb-gddr6')
+# urlList.append('https://www.tokopedia.com/nanokomputer/memory-g-skill-f4-4000c15d-16gtrg-trident-z-royal-16gb-2x8-ddr4-4000')
+# urlList.append('https://www.tokopedia.com/tokorrj/safety-respirator-reusable-washable-n95')
+# urlList.append('https://www.tokopedia.com/enterkomputer/galax-geforce-rtx-2070-super-ex-8gb-ddr6-1-click-oc-rgb-effect')
 
-for url in urlList:
-    getListingDataTokped(url)
-
-a = "•"
+# for url in urlList:
+#     getListingDataTokped(url)

@@ -1,6 +1,6 @@
 import time
 
-class prodObj():
+class listingObj():
     def __init__(self, nameProd = '', priceProd = 0, soldCount = 0, seenProd = 0,  reviewScore = 0, reviewCount = 0, storeArea = '', storeName = '', listingUrl = '', timestamp = 0):
         self.nameProd = nameProd
         self.priceProd = priceProd
