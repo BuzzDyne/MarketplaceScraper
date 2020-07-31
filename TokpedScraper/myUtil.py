@@ -22,7 +22,7 @@ def writeToCSV(qName, prodList, qTime):
 
         # Write Header
         if f.tell() == 0:
-            w.writerow(["Timestamp","Listing Name","Listing Price","Sold","Seen","Review Score","Review Count","Store Name","Store Area","URL"])
+            w.writerow(["Timestamp","Listing Name","Listing Price","Stock","Sold","Seen","Review Score","Review Count","Store Name","Store Area","URL"])
 
             print("Created {}".format(fileName))
         else:

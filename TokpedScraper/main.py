@@ -147,9 +147,7 @@ class ScrapeDriver:
         page = requests.get(pObj.listingUrl, headers=header)
         soup = BeautifulSoup(page.text, 'html.parser')
 
-        # Not yet implemented in listingObj
-        # lblListingStock = {'data-testid' : 'lblPDPDetailProductStock'}
-
+        lblListingStock = {'data-testid' : 'lblPDPDetailProductStock'}
         lblSoldCount    = {'data-testid' : 'lblPDPDetailProductSuccessRate'}
         lblSeenCount    = {'data-testid' : 'lblPDPDetailProductSeenCounter'}
         lblReviewScore  = {'data-testid' : 'lblPDPDetailProductRatingNumber'}
@@ -157,11 +155,25 @@ class ScrapeDriver:
         lblStoreName    = {'data-testid' : 'llbPDPFooterShopName'}
 
         # These data are NOT guaranteed to be there
-        # listingStockText= soup.find(attrs=lblListingStock)
+        listingStockText= soup.find(attrs=lblListingStock)
         soldCountText   = soup.find(attrs=lblSoldCount)
         seenCountText   = soup.find(attrs=lblSeenCount)
         reviewScoreText = soup.find(attrs=lblReviewScore)
         reviewCountText = soup.find(attrs=lblReviewCount)
+
+        # Convert Stock Text to Int
+        if(listingStockText is None):
+            pObj.listingStock = -1                              #NoneType
+        else:
+            stock = listingStockText.get_text()
+            if("kosong" in stock):
+                pObj.listingStock = 0                                   #Empty
+            elif("terakhir" in stock):
+                pObj.listingStock = 1                                   #LastStock
+            elif(stock == ""):
+                pObj.listingStock = 9999                                #Many
+            else:
+                pObj.listingStock = myUtil.filterNonNumericToInt(stock) #Limited
 
         if(soldCountText is None):
             pObj.soldCount = defIntValue
@@ -266,56 +278,8 @@ cpuList = [     "Ryzen 5 3600",
 
 start = time.time()
 
-d.processListOfQuery(vgaList)
-
+# d.processListOfQuery(vgaList)
 d.processListOfQuery(cpuList)
 
 end = time.time()
 print("Time: {}".format(end - start))
-
-# pList = d.scrapeProduct("2060 Super")
-# myUtil.writeToCSV("2060 Super", pList)
-
-# d.scrapeProduct("2070 Super")
-
-# d.scrapeProduct("1660 Super")
-
-
-
-
-
-
-
-
-# d.openUrl(searchUrl+searchQuery,watchEle_xpath)
-# products = d.driver.find_elements_by_xpath(srcResult_xpath)
-
-# for p in products:
-
-#     pName = p.find_element_by_xpath(listingName_xpath).text
-#     pPrice = p.find_element_by_xpath(listingPrice_xpath).text
-#     pArea = p.find_element_by_xpath(listingLoc_xpath).text
-
-#     print("Name: " + pName)
-#     print("Price: " + pPrice)
-#     print("Area: " + pArea)
-    
-#     p.click()
-
-#     time.sleep(3)
-
-#     pStore = d.driver.find_element_by_xpath(listingStore_xpath).text
-#     print("Store: " + pStore)
-
-#     d.driver.back()
-#     time.sleep(3)
-#     print("-------------------")
-#     # for x in p.find_elements_by_xpath(listingStoreAndLoc_xpath):
-#     #     print(x.text)
-
-
-# i = 1
-# for p in products:
-#     print("\n\n{}".format(i))
-#     print(p.text)
-#     i += 1
