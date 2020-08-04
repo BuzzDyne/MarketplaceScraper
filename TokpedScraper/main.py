@@ -87,7 +87,7 @@ class ScrapeDriver:
         defStrValue = "-"
 
         # pObj.soldCount = 9999
-        # pObj.seenProduct = 9999
+        # pObj.seenCount = 9999
         # pObj.reviewScore = 9999
         # pObj.reviewCount = 9999
         # pObj.storeName = "-"
@@ -107,9 +107,9 @@ class ScrapeDriver:
             pObj.soldCount = defIntValue
         
         if (len(seenEle) > 0):
-            pObj.seenProduct = myUtil.filterNonNumericToInt(seenEle[0].text)
+            pObj.seenCount = myUtil.filterNonNumericToInt(seenEle[0].text)
         else:
-            pObj.seenProduct = defIntValue
+            pObj.seenCount = defIntValue
 
         if (len(rScoreEle) > 0):
             pObj.reviewScore = myUtil.filterNonNumericToInt(rScoreEle[0].text)
@@ -129,7 +129,7 @@ class ScrapeDriver:
         pObj.timestamp = int(time.time())
 
         # pObj.soldCount = self.driver.find_element_by_xpath(soldCount_xpath).text
-        # pObj.seenProduct = self.driver.find_element_by_xpath(seenCount_xpath).text
+        # pObj.seenCount = self.driver.find_element_by_xpath(seenCount_xpath).text
         # pObj.reviewScore = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)[0].text
         # pObj.reviewCount = self.driver.find_elements_by_xpath(reviewScoreAndCount_xpath)[1].text
         # pObj.storeName = self.driver.find_element_by_xpath(listingStore_xpath).text
@@ -209,9 +209,9 @@ class ScrapeDriver:
 
         # Seen Count
         if(seenCountText is None):
-            pObj.seenProduct = defIntValue
+            pObj.seenCount = defIntValue
         else:
-            pObj.seenProduct = myUtil.filterNonNumericToInt(seenCountText.get_text())
+            pObj.seenCount = myUtil.filterNonNumericToInt(seenCountText.get_text())
         
         # Review Score
         if(reviewScoreText is None):
@@ -274,6 +274,11 @@ class ScrapeDriver:
         #     p.toString()
 
     def scrapeProductBS(self, productQuery, header=None):
+        """
+            Get listing data from search result page with BS4 and Requests
+
+            Initially only gets URL of each listing and then calls getDataFromListingPageBS() to scrape the rest of the data from every listing page from URL previously stored per listing.
+        """
         if(header == None):
             header = {
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
@@ -299,8 +304,55 @@ class ScrapeDriver:
 
         return pList
 
+    def scrapeProductGQL(self, productQuery=None, header=None, nListing=None):
+        """
+            Get listing data from Tokopedia's GraphQL endpoint (JSON)
+
+            Initially only gets URL and listingID of each listing and then calls getDataFromListingPageBS() to scrape the rest of the data from every listing page from URL previously stored per listing.
+        """
+        API_ENDPOINT = "https://gql.tokopedia.com/"
+
+        if(productQuery == None):
+            print("Inside scrapeProductGQL: productQuery is None type")
+            return -1
+
+        if(header == None):
+            header = {
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
+            }
+
+        if(nListing == None):
+            nListing = 60
+
+        requestPayload = {
+            "operationName":"SearchProductQueryV4",
+            "variables":{
+                "params":"scheme=https&device=desktop&related=true&st=product&q={}&ob=23&page=1&variants=&shipping=&start=0&rows={}&user_id=&unique_id=d2426b563c16fd7b333dff580e431f86&safe_search=false&source=search".format(productQuery,nListing)
+            },
+            "query":"query SearchProductQueryV4($params: String!) {\n  ace_search_product_v4(params: $params) {\n    header {\n      totalData\n      totalDataText\n      processTime\n      responseCode\n      errorMessage\n      additionalParams\n      keywordProcess\n      __typename\n    }\n    data {\n      isQuerySafe\n      ticker {\n        text\n        query\n        typeId\n        __typename\n      }\n      redirection {\n        redirectUrl\n        departmentId\n        __typename\n      }\n      related {\n        relatedKeyword\n        otherRelated {\n          keyword\n          url\n          product {\n            id\n            name\n            price\n            imageUrl\n            rating\n            countReview\n            url\n            priceStr\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      suggestion {\n        currentKeyword\n        suggestion\n        suggestionCount\n        instead\n        insteadCount\n        query\n        text\n        __typename\n      }\n      products {\n        id\n        name\n        ads {\n          id\n          productClickUrl\n          productWishlistUrl\n          productViewUrl\n          __typename\n        }\n        badges {\n          title\n          imageUrl\n          show\n          __typename\n        }\n        category: departmentId\n        categoryBreadcrumb\n        categoryId\n        categoryName\n        countReview\n        discountPercentage\n        gaKey\n        imageUrl\n        labelGroups {\n          position\n          title\n          type\n          __typename\n        }\n        originalPrice\n        price\n        priceRange\n        rating\n        shop {\n          id\n          name\n          url\n          city\n          isOfficial\n          isPowerBadge\n          __typename\n        }\n        url\n        wishlist\n        sourceEngine: source_engine\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
+        }
+
+        r = requests.post(url = API_ENDPOINT, json=requestPayload)
+        
+        dataTree = r.json().get('data').get('ace_search_product_v4').get('data').get('products')
+
+        # Create list of listingObj with only its own URL and listingID
+        pList = []
+        for x in dataTree:
+            pList.append(listingObj(listingUrl=x.get('url'), listingID=x.get('id')))
+            print(".", end="")
+        print("")
+
+        # Fetch the rest of listing data with its url
+        for p in pList:
+            self.getDataFromListingPageBS(p)
+            print(".", end="")
+        print("")
+
+        return pList
+
     def processQuery(self, qName):
-        pList = self.scrapeProductBS(qName)
+        pList = self.scrapeProductGQL(qName)
         myUtil.writeToCSV(qName, pList, time.time())
 
     def processListOfQuery(self, listQ):
@@ -340,7 +392,7 @@ cpuList = [     "Ryzen 5 3600",
 start = time.time()
 
 d.processListOfQuery(vgaList)
-# d.processListOfQuery(cpuList)
+d.processListOfQuery(cpuList)
 
 end = time.time()
 print("Time: {}".format(end - start))
