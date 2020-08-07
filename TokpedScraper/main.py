@@ -10,7 +10,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from prodLists import listingObj 
 import myUtil
-import listingPageExtractor as listExtract
 
 chrome_path = 'D:\\chromedriver.exe'
 
@@ -235,7 +234,7 @@ class ScrapeDriver:
         if(storeaAreaText is None):
             pObj.storeArea = "NoneType"
         else:
-            pObj.storeArea = storeaAreaText.get_text()
+            pObj.storeArea = myUtil.shopAreaCleaner(storeaAreaText.get_text())
 
         pObj.timestamp = int(time.time())
 
@@ -352,7 +351,7 @@ class ScrapeDriver:
         return pList
 
     def processQuery(self, qName):
-        pList = self.scrapeProductGQL(qName)
+        pList = self.scrapeProductGQL(qName, nListing=10)
         myUtil.writeToCSV(qName, pList, time.time())
 
     def processListOfQuery(self, listQ):

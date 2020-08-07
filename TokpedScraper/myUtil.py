@@ -6,6 +6,19 @@ def filterNonNumericToInt(strX):
     """Takes STRING and returns only the number in the string as INTEGER"""
     return int(sub(r'[^0-9]', '', strX))
 
+def shopAreaCleaner(dirtyStore):
+    aktifNo = dirtyStore.find("Aktif")
+    onlineNo= dirtyStore.find("Online")
+
+    if(aktifNo == -1):
+        output = dirtyStore[0:onlineNo-3]
+    elif(onlineNo == -1):
+        output = dirtyStore[0:aktifNo-3]
+    else:
+        output = "ShopAreaCleanerError"
+
+    return output
+
 def removeSpaceFileName(strX):
     return strX.replace(" ", "_")
 
