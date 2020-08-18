@@ -33,6 +33,8 @@ soldCount_xpath             = "//b[@data-testid='lblPDPDetailProductSoldCounter'
 seenCount_xpath             = "//span[@data-testid='lblPDPDetailProductSeenCounter']/b"
 listingStore_xpath          = "//a[@class='css-xmjuvc']"
 
+deltaSec = 2 * (3600)
+
 # listingStoreAndLoc_xpath    = ".//div[@class='css-vbihp9']"
 # listingLoc_xpath    = ".//span[@class='css-1kr22w3'][1]"
 # listingStoreAndLoc_xpath    = ".//span[@class='css-1kr22w3']"1
@@ -236,7 +238,7 @@ class ScrapeDriver:
         else:
             pObj.storeArea = myUtil.shopAreaCleaner(storeaAreaText.get_text())
 
-        pObj.timestamp = int(time.time())
+        pObj.timestamp = int(time.time() - deltaSec)
 
     def scrapeProduct(self, productQuery):
         self.openUrl(searchUrl+productQuery, watchEle_xpath)
@@ -352,7 +354,7 @@ class ScrapeDriver:
 
     def processQuery(self, qName):
         pList = self.scrapeProductGQL(qName, nListing=10)
-        myUtil.writeToCSV(qName, pList, time.time())
+        myUtil.writeToCSV(qName, pList, time.time() - deltaSec)
 
     def processListOfQuery(self, listQ):
         for p in listQ:
