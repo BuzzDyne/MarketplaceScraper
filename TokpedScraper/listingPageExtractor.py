@@ -1,4 +1,6 @@
 # Extract Data from a listing given the link
+# (BROKEN)  : Listing Page now doesn't respond with data-filled HTML, must interact with GQL too
+# 
 # Speed     :   Around 1 Second
 # 
 # Method    :   - Get the raw HTML file with Requests
