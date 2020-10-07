@@ -24,7 +24,7 @@ class listingObj():
         print("Name: {}".format(self.nameProd))
         print("Price: {}".format(self.priceProd))
         # print("Url: {}".format(self.listingUrl))
-        print("SoldColistingStockunt: {}".format(self.listingStock))
+        print("StockCount: {}".format(self.listingStock))
         print("SoldCount: {}".format(self.soldCount))
         print("Seen: {}".format(self.seenCount))
         print("ReviewScore: {}".format(self.reviewScore))
