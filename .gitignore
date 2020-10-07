@@ -141,4 +141,5 @@ cython_debug/
 NULL
 NULL.txt
 fnlPrj/
+data/
 debug.log
