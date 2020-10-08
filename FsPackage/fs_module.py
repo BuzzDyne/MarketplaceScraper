@@ -6,6 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 import FsPackage.utils as utils
+from DataModel.listing_data_row import ListingDataRow
 
 cred = credentials.Certificate("pricetrend-8d62c-ecd1490085a6.json")
 
@@ -50,7 +51,7 @@ class FsModule:
         #     u'stock'        : '',
         #     u'reviewCount'  : '',
         #     u'reviewScore'  : '',
-        #     u'currPrice'    : '',
+        #     u'price'        : '',
         #     u'prevPrice'    : ''
         #   }
         # }
@@ -63,7 +64,7 @@ class FsModule:
         u'stock'        : 0,
         u'reviewCount'  : 0,
         u'reviewScore'  : 0,
-        u'currPrice'    : 0,
+        u'price'        : 0,
         u'prevPrice'    : 0
       }
 
@@ -80,7 +81,51 @@ class FsModule:
         u'latestData'   : latestData
       }
 
-      parentRef.add(payload)
+      ref = parentRef.add(payload)
+
+      # print(ref[1].path)
+
+    def insertSingleListingDataRow(self, listingID, data):
+      """Write a new data doc of a ListingDoc (given its listingID) with the given data (ListingDataRow)
+      
+      1. Query the listing data (listingID)
+      2. Add new doc in the 'data' subcollection
+      3. Updates the 'latestData' field on parent ListingDoc"""
+
+      # Data Type Handling
+      if(type(data) is not ListingDataRow):
+        print("The given data type is not 'ListingDataRow'")
+        return None
+
+      # 1. Query
+      listingRef = self.db.collection(addr['Listings'])
+      result_list = listingRef.where("listingID", "==", listingID).get()
+      
+      # Query Error Handling
+      if(len(result_list) == 0):
+        print('No Listing with id ({}) found!'.format(listingID))
+        return None
+      elif(len(result_list) > 1):
+        print('More than one Listing with id ({}) found! ListingID supposed to be unique!'.format(listingID))
+        return None
+
+      # 2. Insert new doc
+      parentDocAddr = result_list[0].reference.path
+      trgtRef = self.db.collection(parentDocAddr+"/data")
+      trgtRef.add(data.toDict())
+
+      # 3. Update metadata
+      prevPrice = result_list[0].to_dict()['latestData']['price']
+
+      data_dict = data.toDict()
+      data_dict['prevPrice'] = prevPrice
+      latestData_dict = {
+        'latestData': data_dict
+      }
+
+      parentRef = self.db.document(parentDocAddr)
+      parentRef.update(latestData_dict)
+
 
     def readDocument(self, target):
       doc = self.db.document(target).get() 
