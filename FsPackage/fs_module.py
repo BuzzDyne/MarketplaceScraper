@@ -7,9 +7,7 @@ from firebase_admin import firestore
 
 import FsPackage.utils as utils
 
-from DataModel.listing_data_row import ListingDataRow
-from DataModel.existing_listing_url import ExistingListingUrl
-from DataModel.new_listing_url import NewListingUrl
+from DataModel.fs_package_model import ListingDataRow, ExistingListingUrl, NewListingUrl
 
 cred = credentials.Certificate("pricetrend-8d62c-ecd1490085a6.json")
 
