@@ -10,9 +10,13 @@ fs = FsModule()
 
 # fs.createListing("RTX 2080","123","Enter Komputer","Jakarta Barat")
 
-data = ListingDataRow(44,44,44,544,2544)
+# data = ListingDataRow(44,44,44,544,2544)
 
-fs.insertSingleListingDataRow("123", data)
+# fs.insertSingleListingDataRow("123", data)
+
+# print(fs.getNewListingURLs()[0].toDict())
+print(fs.getNewListingURLs()[0].toDict())
+
 
 # Tagify Example
 # res = u.tagifyListingName("RAZER BLADE PRO 4K 32GB i7 GTX 1080 LAPTOP GAMING NO MACBOOK ALIENWARE")

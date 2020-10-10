@@ -2,6 +2,8 @@ from datetime import datetime
 import pytz
 
 class ListingDataRow():
+    """A Model class used to contain a single Listing Data row to be pushed to DB"""
+
     def __init__(self, sold, stock, reviewCount, reviewScore, price, ts=None):
         self.ts             = datetime.now(tz=pytz.timezone('Asia/Jakarta'))
         self.sold           = sold

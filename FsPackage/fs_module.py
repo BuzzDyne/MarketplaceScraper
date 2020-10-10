@@ -6,34 +6,57 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 import FsPackage.utils as utils
+
 from DataModel.listing_data_row import ListingDataRow
+from DataModel.existing_listing_url import ExistingListingUrl
+from DataModel.new_listing_url import NewListingUrl
 
 cred = credentials.Certificate("pricetrend-8d62c-ecd1490085a6.json")
 
 addr = {
-  "NewListing"      : "Scraper/newListing",
+  "NewListing"      : "Scraper/newListing/UrlList",
   "ExistingListing" : "Scraper/existingListing",
   "Listings"        : "Listings"
 }
 
 class FsModule:
-    """Handles CRUD operation to the Firestore DB
+    """
+      Handles CRUD operation to the Firestore DB
     
-    Requires Firestore's JSON Auth Key to be placed on the same dir as this module"""
+      Requires Firestore's JSON Auth Key to be placed on the same dir as this module"""
 
     def __init__(self):
       firebase_admin.initialize_app(cred)        
       self.db = firestore.client()
 
-    ################ Scraper ################
+    # ScraperCol 
+
     def getNewListingURLs(self):
-      """Returns a list of new listing urls"""
-      doc = self.db.document(addr['NewListing']).get()
+      """Returns a list of NewListingUrl obj"""
+
+      docs = self.db.collection(addr['NewListing']).get()
+      
+      result = []
+
+      for doc in docs:
+        # TODO Handle users related thing here
+        # uids = doc.to_dict()['users']
+
+        result.append(NewListingUrl(doc.get('url'), doc.reference.path, doc.get('users')))
+
+      return result
+
+    def getExistingListingURLs(self):
+      """(TODO) Returns a list of ExistingListingUrl obj"""
+      doc = self.db.document(addr['ExistingListing']).get()
+
       return doc.to_dict()["urls"]
 
-    ################ Listings ################
-    def createListing(self, listingName, listingID, storeName, storeArea):
-      """Write a new Listing Document given the initial data"""
+    # ListingsCol 
+    def createListing(self, listingName, listingID, listingUrl, storeName, storeArea):
+      """Write a new Listing Document given the initial data
+      
+      Then updates the existingListing document with new ListingDocAddr and listingURL"""
       # Data sample 
         # {
         #   u'tags'         : [],
@@ -43,6 +66,7 @@ class FsModule:
         #   },
         #   u'listingName'  : '',
         #   u'listingID'    : '',
+        #   u'listingURL'   : '',
         #   u'storeName'    : '',
         #   u'storeArea'    : '',
         #   u'latestData'   : {
@@ -76,6 +100,7 @@ class FsModule:
         },
         u'listingName'  : listingName,
         u'listingID'    : listingID,
+        u'listingURL'   : listingUrl,
         u'storeName'    : storeName,
         u'storeArea'    : storeArea,
         u'latestData'   : latestData
@@ -125,8 +150,3 @@ class FsModule:
 
       parentRef = self.db.document(parentDocAddr)
       parentRef.update(latestData_dict)
-
-
-    def readDocument(self, target):
-      doc = self.db.document(target).get() 
-      return doc.to_dict()
