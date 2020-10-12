@@ -1,18 +1,30 @@
 import requests
 from bs4 import BeautifulSoup
 
+from DataModel.scraper_package_model import ListingObj
+
+from ScraperPackage import utils
+
 # 1. Need to scrape listing given its Listing URL
+    # Problem:
+        # ListingID were got from GQL Search Query
+            # Must find the GQL Operation Query name to get product data
+
+DEF_INT_VALUE = 0
+API_ENDPOINT = "https://gql.tokopedia.com/"
 
 class Scraper:
     def __init__(self):
-        return
-
-    def scrapeListingPage(self, listingUrl):
-        header = {
+        self.header = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
         }
 
-        page = requests.get(listingUrl, headers=header)
+    def scrapeListingPageBS(self, listingUrl):
+        """Returns a ListingObj with all Listing Data (except ListingID) given the URL of the Listing"""
+
+        pObj = ListingObj(listingUrl=listingUrl)
+
+        page = requests.get(listingUrl, headers=self.header)
         soup = BeautifulSoup(page.text, 'html.parser')
     
         lblListingName  = {'data-testid' : 'lblPDPDetailProductName'}
@@ -38,15 +50,15 @@ class Scraper:
         # Error Handlings
         # Listing Name
         if(listingNameText is None):
-            pObj.nameProd = "NoneType"
+            pObj.listingName = "NoneType"
         else:
-            pObj.nameProd = listingNameText.get_text()
+            pObj.listingName = listingNameText.get_text()
 
         # Listing Price
         if(listingPriceText is None):
-            pObj.priceProd = defIntValue
+            pObj.priceProd = DEF_INT_VALUE
         else:
-            pObj.priceProd = myUtil.filterNonNumericToInt(listingPriceText.get_text()) 
+            pObj.priceProd = utils.filterNonNumericToInt(listingPriceText.get_text()) 
 
         # Stock
         if(listingStockText is None):
@@ -60,31 +72,31 @@ class Scraper:
             elif(stock == ""):
                 pObj.listingStock = 9999                                #Many
             else:
-                pObj.listingStock = myUtil.filterNonNumericToInt(stock) #Limited
+                pObj.listingStock = utils.filterNonNumericToInt(stock) #Limited
 
         # Sold Count
         if(soldCountText is None):
-            pObj.soldCount = defIntValue
+            pObj.soldCount = DEF_INT_VALUE
         else:
-            pObj.soldCount = myUtil.filterNonNumericToInt(soldCountText.get_text())
+            pObj.soldCount = utils.filterNonNumericToInt(soldCountText.get_text())
 
         # Seen Count
         if(seenCountText is None):
-            pObj.seenCount = defIntValue
+            pObj.seenCount = DEF_INT_VALUE
         else:
-            pObj.seenCount = myUtil.filterNonNumericToInt(seenCountText.get_text())
+            pObj.seenCount = utils.filterNonNumericToInt(seenCountText.get_text())
         
         # Review Score
         if(reviewScoreText is None):
-            pObj.reviewScore = defIntValue
+            pObj.reviewScore = DEF_INT_VALUE
         else:
-            pObj.reviewScore = myUtil.filterNonNumericToInt(reviewScoreText.get_text())
+            pObj.reviewScore = utils.filterNonNumericToInt(reviewScoreText.get_text())
         
         # Review Count
         if(reviewCountText is None):
-            pObj.reviewCount = defIntValue
+            pObj.reviewCount = DEF_INT_VALUE
         else:
-            pObj.reviewCount = myUtil.filterNonNumericToInt(reviewCountText.get_text())
+            pObj.reviewCount = utils.filterNonNumericToInt(reviewCountText.get_text())
 
         # Store Name
         if(storeNameText is None):
@@ -96,6 +108,32 @@ class Scraper:
         if(storeaAreaText is None):
             pObj.storeArea = "NoneType"
         else:
-            pObj.storeArea = myUtil.shopAreaCleaner(storeaAreaText.get_text())
+            pObj.storeArea = utils.shopAreaCleaner(storeaAreaText.get_text())
 
+        return pObj
+        
+    def scrapeListingUrlGQL(self, listingUrl):
+        """Returns a ListingObj containing scraped data from a given ListingUrl"""
+        # https://www.tokopedia.com/supergamingid/intel-core-i5-10400f-coffee-lake-promo-gaming-murah
+        x = listingUrl.split('/')
+        productKey = x[-1]
+        shopDomain = x[-2]
+
+        byUrlPayload = {
+            "operationName":"PDPInfoQuery",
+            "variables":{
+                "shopDomain" : shopDomain,
+                "productKey" : productKey
+            },
+            "query": "query PDPInfoQuery($shopDomain:String, $productKey:String){\n  getPDPInfo(productID:0,shopDomain:$shopDomain,productKey:$productKey) {\n  basic {id\n    shopID\n    name\n    alias\n    price\n    lastUpdatePrice\n    status\n    url} stats{\n countView\n countReview\n rating\n} txStats{\n txSuccess\n txReject\n itemSold\n itemSoldPaymentVerified\n} stock{\n useStock\n value\n stockWording\n}  }}"
+        }
+
+        r = requests.post(url= API_ENDPOINT, json=byUrlPayload)
+        dataTree = r.json()['data']['getPDPInfo']
+
+        res = ListingObj()
+
+        res.listingID   = dataTree['basic']['id']
+        res.listingName = dataTree['basic']['name']
+        res.priceProd   = dataTree['basic']['price']
         
