@@ -83,6 +83,7 @@ class FsModule:
       latestData = {
         u'ts'           : datetime.now(tz=pytz.timezone('Asia/Jakarta')),
         u'sold'         : 0,
+        u'seen'         : 0,
         u'stock'        : 0,
         u'reviewCount'  : 0,
         u'reviewScore'  : 0,
