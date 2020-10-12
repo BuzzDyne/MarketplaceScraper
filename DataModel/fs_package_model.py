@@ -4,14 +4,14 @@ import pytz
 class ListingDataRow():
     """A Model class used to contain a single Listing Data row to be pushed to DB"""
 
-    def __init__(self, sold, seen, stock, reviewCount, reviewScore, price, ts=None):
+    def __init__(self, sold=None, seen=None, stock=None, reviewCount=None, reviewScore=None, price=None, ts=None):
         self.ts             = datetime.now(tz=pytz.timezone('Asia/Jakarta'))
-        self.sold           = sold
-        self.seen           = seen
-        self.stock          = stock
-        self.reviewCount    = reviewCount
-        self.reviewScore    = reviewScore
-        self.price          = price
+        self.sold           = sold          if sold is not None else -1
+        self.seen           = seen          if seen is not None else -1
+        self.stock          = stock         if stock is not None else -1
+        self.reviewCount    = reviewCount   if reviewCount is not None else -1
+        self.reviewScore    = reviewScore   if reviewScore is not None else -1   # 0-100
+        self.price          = price         if price is not None else -1
 
         if(ts is not None):
             self.ts = ts

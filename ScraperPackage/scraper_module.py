@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-from DataModel.scraper_package_model import ListingObj
+from DataModel.listingObj import ListingObj
+from DataModel.fs_package_model import ListingDataRow
 
 from ScraperPackage import utils
 
@@ -18,103 +19,14 @@ class Scraper:
         self.header = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
         }
-
-    def scrapeListingPageBS(self, listingUrl):
-        """Returns a ListingObj with all Listing Data (except ListingID) given the URL of the Listing"""
-
-        pObj = ListingObj(listingUrl=listingUrl)
-
-        page = requests.get(listingUrl, headers=self.header)
-        soup = BeautifulSoup(page.text, 'html.parser')
-    
-        lblListingName  = {'data-testid' : 'lblPDPDetailProductName'}
-        lblListingPrice = {'data-testid' : 'lblPDPDetailProductPrice'}
-        lblListingStock = {'data-testid' : 'lblPDPDetailProductStock'}
-        lblSoldCount    = {'data-testid' : 'lblPDPDetailProductSuccessRate'}
-        lblSeenCount    = {'data-testid' : 'lblPDPDetailProductSeenCounter'}
-        lblReviewScore  = {'data-testid' : 'lblPDPDetailProductRatingNumber'}
-        lblReviewCount  = {'data-testid' : 'lblPDPDetailProductRatingCounter'}
-        lblStoreName    = {'data-testid' : 'llbPDPFooterShopName'}
-        lblStoreArea    = {'data-testid' : 'lblPDPFooterLastOnline'}
-
-        listingNameText = soup.find(attrs=lblListingName)
-        listingPriceText= soup.find(attrs=lblListingPrice)
-        listingStockText= soup.find(attrs=lblListingStock)
-        soldCountText   = soup.find(attrs=lblSoldCount)
-        seenCountText   = soup.find(attrs=lblSeenCount)
-        reviewScoreText = soup.find(attrs=lblReviewScore)
-        reviewCountText = soup.find(attrs=lblReviewCount)
-        storeNameText   = soup.find(attrs=lblStoreName)
-        storeaAreaText  = soup.find(attrs=lblStoreArea)
-
-        # Error Handlings
-        # Listing Name
-        if(listingNameText is None):
-            pObj.listingName = "NoneType"
-        else:
-            pObj.listingName = listingNameText.get_text()
-
-        # Listing Price
-        if(listingPriceText is None):
-            pObj.priceProd = DEF_INT_VALUE
-        else:
-            pObj.priceProd = utils.filterNonNumericToInt(listingPriceText.get_text()) 
-
-        # Stock
-        if(listingStockText is None):
-            pObj.listingStock = -1                              #NoneType
-        else:
-            stock = listingStockText.get_text()
-            if("kosong" in stock):
-                pObj.listingStock = 0                                   #Empty
-            elif("terakhir" in stock):
-                pObj.listingStock = 1                                   #LastStock
-            elif(stock == ""):
-                pObj.listingStock = 9999                                #Many
-            else:
-                pObj.listingStock = utils.filterNonNumericToInt(stock) #Limited
-
-        # Sold Count
-        if(soldCountText is None):
-            pObj.soldCount = DEF_INT_VALUE
-        else:
-            pObj.soldCount = utils.filterNonNumericToInt(soldCountText.get_text())
-
-        # Seen Count
-        if(seenCountText is None):
-            pObj.seenCount = DEF_INT_VALUE
-        else:
-            pObj.seenCount = utils.filterNonNumericToInt(seenCountText.get_text())
+  
+    def scrapeInitialListing(self, listingUrl):
+        """Returns a ListingObj containing scraped data from a given ListingUrl
         
-        # Review Score
-        if(reviewScoreText is None):
-            pObj.reviewScore = DEF_INT_VALUE
-        else:
-            pObj.reviewScore = utils.filterNonNumericToInt(reviewScoreText.get_text())
-        
-        # Review Count
-        if(reviewCountText is None):
-            pObj.reviewCount = DEF_INT_VALUE
-        else:
-            pObj.reviewCount = utils.filterNonNumericToInt(reviewCountText.get_text())
-
-        # Store Name
-        if(storeNameText is None):
-            pObj.storeName = "NoneType"
-        else:
-            pObj.storeName = storeNameText.get_text()
-
-        # Store Area
-        if(storeaAreaText is None):
-            pObj.storeArea = "NoneType"
-        else:
-            pObj.storeArea = utils.shopAreaCleaner(storeaAreaText.get_text())
-
-        return pObj
-        
-    def scrapeListingUrlGQL(self, listingUrl):
-        """Returns a ListingObj containing scraped data from a given ListingUrl"""
+        - Called when writing a new Listing Doc
+        - listingUrl must be in this format 'tokopedia.com/SHOP_DOMAIN/PRODUCT_KEY' """
         # https://www.tokopedia.com/supergamingid/intel-core-i5-10400f-coffee-lake-promo-gaming-murah
+
         x = listingUrl.split('/')
         productKey = x[-1]
         shopDomain = x[-2]
@@ -125,7 +37,38 @@ class Scraper:
                 "shopDomain" : shopDomain,
                 "productKey" : productKey
             },
-            "query": "query PDPInfoQuery($shopDomain:String, $productKey:String){\n  getPDPInfo(productID:0,shopDomain:$shopDomain,productKey:$productKey) {\n  basic {id\n    shopID\n    name\n    alias\n    price\n    lastUpdatePrice\n    status\n    url} stats{\n countView\n countReview\n rating\n} txStats{\n txSuccess\n txReject\n itemSold\n itemSoldPaymentVerified\n} stock{\n useStock\n value\n stockWording\n}  }}"
+            "query": """
+            query PDPInfoQuery($shopDomain:String, $productKey:String) {
+                getPDPInfo(productID:0,shopDomain:$shopDomain,productKey:$productKey) {
+                    basic {
+                        id
+                        shopID
+                        name
+                        alias
+                        price
+                        lastUpdatePrice
+                        status
+                        url
+                    }
+                    stats {
+                        countView
+                        countReview
+                        rating
+                    }
+                    txStats {
+                        itemSold
+                    }
+                    stock {
+                        useStock
+                        value
+                        stockWording
+                    }
+                    pictures {
+                        url300
+                    }
+                }
+            }
+            """
         }
 
         r = requests.post(url= API_ENDPOINT, json=byUrlPayload)
@@ -133,14 +76,24 @@ class Scraper:
 
         res = ListingObj()
 
-        res.listingName = dataTree['basic']['name']
-        res.listingID   = dataTree['basic']['id']
-        res.listingUrl  = listingUrl
-        res.storeName   = self.getShopNameByDomain(shopDomain)
-        # res.storeArea   =
+        res.listingName     = dataTree['basic']['name']
+        res.listingID       = dataTree['basic']['id']
+        res.listingURL      = listingUrl
+        res.listingImgURL   = dataTree['pictures'][0]['url300']
+        res.storeName       = self.getShopNameByDomain(shopDomain)
+        # res.storeArea     = xxxx
 
-        res.priceProd   = dataTree['basic']['price']
-        
+        sold            = dataTree['txStats']['itemSold']
+        seen            = dataTree['stats']['countView']
+        stock           = dataTree['stock']['value']
+        reviewCount     = dataTree['stats']['countReview']
+        reviewScore     = dataTree['stats']['rating']
+        price           = dataTree['basic']['price']
+
+        res.setDataRow(sold,seen,stock,reviewCount,reviewScore,price)
+
+        return res
+    
     def getShopNameByDomain(self, shopDomain):
         """Return a str of ShopName given the shopDomain"""
         shopInfoQuery = {
@@ -170,3 +123,52 @@ class Scraper:
         dataTree = r.json()
 
         return dataTree['data']['shopInfoByID']['result'][0]['shopCore']['name']
+
+    def scrapeListingDataRow(self, listingID):
+        """Returns a ListingDataRow of a Listing given its ListingID"""
+
+        byProductID = {
+            "operationName":"PDPInfoQuery",
+            "variables":{
+                "productID" : listingID
+            },
+            "query": """
+            query PDPInfoQuery($productID:Int){
+                getPDPInfo(productID:$productID) {
+                    basic {
+                        price
+                        lastUpdatePrice
+                        status
+                    }
+                    stats {
+                        countView
+                        countReview
+                        rating
+                    }
+                    txStats {
+                        itemSold
+                    }
+                    stock {
+                        useStock
+                        value
+                    }
+                }
+            }
+            """
+        }
+
+        r = requests.post(url= API_ENDPOINT, json=byProductID)
+        dataTree = r.json()['data']['getPDPInfo']
+
+        print()
+
+        res = ListingDataRow()
+
+        res.sold            = dataTree['txStats']['itemSold']
+        res.seen            = dataTree['stats']['countView']
+        res.stock           = dataTree['stock']['value']
+        res.reviewCount     = dataTree['stats']['countReview']
+        res.reviewScore     = dataTree['stats']['rating']
+        res.price           = dataTree['basic']['price']
+
+        return res
