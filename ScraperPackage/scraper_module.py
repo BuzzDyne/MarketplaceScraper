@@ -133,7 +133,40 @@ class Scraper:
 
         res = ListingObj()
 
-        res.listingID   = dataTree['basic']['id']
         res.listingName = dataTree['basic']['name']
+        res.listingID   = dataTree['basic']['id']
+        res.listingUrl  = listingUrl
+        res.storeName   = self.getShopNameByDomain(shopDomain)
+        # res.storeArea   =
+
         res.priceProd   = dataTree['basic']['price']
         
+    def getShopNameByDomain(self, shopDomain):
+        """Return a str of ShopName given the shopDomain"""
+        shopInfoQuery = {
+            "operationName":"PDPShopInfoQuery",
+            "variables":{
+                "fields" : "",
+                "domain" : shopDomain
+            },
+            # "query": "query PDPShopInfoQuery($shopID:Int){shopInfoByID(input:{shopIDs:$shopID}) {\n  result{\n  shopCore{\n  name\n domain\n  url\n  description\n}  }}",
+            "query": """
+            query PDPShopInfoQuery ($fields:[String!]!,$domain:String){
+                shopInfoByID(input:{shopIDs:[0],fields:$fields,domain:$domain}){
+                result {
+                    shopCore {
+                    name
+                    url
+                    domain
+                    description
+                    }
+                }
+                }
+            }
+            """
+        }
+
+        r = requests.post(url = API_ENDPOINT, json=shopInfoQuery)
+        dataTree = r.json()
+
+        return dataTree['data']['shopInfoByID']['result'][0]['shopCore']['name']

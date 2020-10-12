@@ -9,7 +9,7 @@ from ScraperPackage.scraper_module import Scraper
 
 sc = Scraper()
 
-sc.scrapeListingUrlGQL("https://www.tokopedia.com/supergamingid/intel-core-i5-10400f-coffee-lake-promo-gaming-murah")
+print(sc.getShopNameByDomain("tokorrj"))
 
 
 

@@ -209,11 +209,16 @@ query SearchProductQueryV4($params: String!) {
         error{message}}}"
 """
 
+shopID = ["7503026"]
+shopDomain = "supergamingid"
+productKey = 'intel-core-i5-10400f-coffee-lake-promo-gaming-murah'
+productID = 846938257
+
 shopInfoQuery = {
     "operationName":"PDPShopInfoQuery",
     "variables":{
-        "fields" : ["7503026"],
-        "domain" : "supergamingid"
+        "fields" : "",
+        "domain" : shopDomain
     },
     # "query": "query PDPShopInfoQuery($shopID:Int){shopInfoByID(input:{shopIDs:$shopID}) {\n  result{\n  shopCore{\n  name\n domain\n  url\n  description\n}  }}",
     "query": """
@@ -226,20 +231,13 @@ shopInfoQuery = {
               domain
               description
             }
-            location
-            favoriteData {
-              alreadyFavorited
-            }
           }
         }
       }
     """
 }
 
-shopDomain = 'supergamingid'
-productKey = 'intel-core-i5-10400f-coffee-lake-promo-gaming-murah'
-productID = 846938257
-shopID = 7503026
+
 
 # byUrlPayload = {
 #     "operationName":"PDPInfoQuery",
