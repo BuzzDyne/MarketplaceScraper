@@ -109,7 +109,7 @@ class FsModule:
       }
 
       payload = {
-        u'tags'         : utils.tagifyListingName(listingName),
+        u'tags'         : utils.tagifyListingNameV2(listingName),
         u'stats'        : {
           u'activeTracking' : 0,
           u'bought'         : 0

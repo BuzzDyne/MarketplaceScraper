@@ -9,12 +9,12 @@ from app import App
 ################## Start of IntegrationTest ##################
 
 app = App()
-# app.createNewListingData()
-app.updateListingData()
+app.createNewListingData()
+# app.updateListingData()
 
 
 
-
+################## End of IntegrationTest ##################
 ################## Start of ScraperModule ##################
 
 # sc = Scraper()
@@ -45,8 +45,18 @@ app.updateListingData()
 
 
 # Tagify Example
-# res = u.tagifyListingName("RAZER BLADE PRO 4K 32GB i7 GTX 1080 LAPTOP GAMING NO MACBOOK ALIENWARE")
-# print(res)
+# pName = "RAZER BLADE PRO 4K 32GB i7 GTX 1080 LAPTOP GAMING NO MACBOOK ALIENWARE"
+# te = "1 2 3 4 5 6 7 8"
+# e = "Laptop Gaming RAZER BLADE 15 - i7 8750 16GB 512GB GTX1070 8GB W10 15.6 - Hitam"
+
+
+# res = u.tagifyListingName(e)
+# # print(res)
 # print(len(res))
+
+# res = u.tagifyListingNameV2(e)
+# # print(res)
+# print(len(res))
+
 
 ################## End of FsModule ##################
