@@ -4,9 +4,11 @@ from DataModel.fs_package_model import ListingDataRow
 
 from ScraperPackage.scraper_module import Scraper
 
+from app import App
+
 ################## Start of IntegrationTest ##################
 
-app = PriceTrendModule()
+app = App()
 # app.createNewListingData()
 app.updateListingData()
 
@@ -31,7 +33,8 @@ app.updateListingData()
 
 # fs = FsModule()
 
-# fs.getExistingListingURLs()
+# x = fs.getExistingListingURLs()
+# x = fs.getNewListingURLs()
 
 # fs.createListing("RTX 2080","123","Enter Komputer","Jakarta Barat")
 

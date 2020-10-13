@@ -41,10 +41,10 @@ class ExistingListingObj():
 
 class NewListingUrl():
 
-    def __init__(self, url, docAddr, users):
-        self.url        = url
-        self.docAddr    = docAddr
-        self.users      = users
+    def __init__(self, url, selfDocAddr, users):
+        self.url            = url
+        self.selfDocAddr    = selfDocAddr
+        self.users          = users
 
     def toDict(self):
         return {

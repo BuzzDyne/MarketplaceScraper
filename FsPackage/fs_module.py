@@ -29,9 +29,9 @@ class FsModule:
     # ScraperCol 
 
     def getNewListingURLs(self):
-      """Returns a list of NewListingUrl obj"""
+      """Returns a list of NewListingUrl obj that haven't been created its listing"""
 
-      docs = self.db.collection(addr['NewListing']).get()
+      docs = self.db.collection(addr['NewListing']).where("isCreated", "==", False).get()
       
       result = []
 
@@ -42,6 +42,19 @@ class FsModule:
         result.append(NewListingUrl(doc.get('url'), doc.reference.path, doc.get('users')))
 
       return result
+
+    def setNewListingDocAddr(self, selfAddr, listingDocAddr):
+      """Set the 'docAddr' field of 'newListing' collection
+      
+      Marking the 'newListing' as successfully created at 'Listing' collection """
+      docRef = self.db.document(selfAddr)
+
+      data = {
+        'isCreated'       : True,
+        'listingDocAddr'  : listingDocAddr
+      }
+
+      docRef.update(data)
 
     def getExistingListingURLs(self):
       """Returns a list of ExistingListingUrl obj"""
@@ -55,9 +68,10 @@ class FsModule:
 
     # ListingsCol 
     def createListing(self, listingName, listingID, listingUrl, storeName, storeArea):
-      """Write a new Listing Document given the initial data
-      
-      Then updates the existingListing document with new ListingDocAddr and listingURL"""
+      """Write a new Listing Document given the initial data,
+      then updates the existingListing document with new ListingDocAddr and listingURL
+
+      Returns the DocAddr of newly created ListingDoc"""
       # Data sample 
         # {
         #   u'tags'         : [],
@@ -110,7 +124,7 @@ class FsModule:
 
       ref = parentRef.add(payload)
 
-      # print(ref[1].path)
+      return ref[1].path
 
     def insertSingleListingDataRow(self, listingID, data):
       """Write a new data doc of a ListingDoc (given its listingID) with the given data (ListingDataRow)
