@@ -5,27 +5,10 @@ from DataModel.fs_package_model import ListingDataRow
 from ScraperPackage.scraper_module import Scraper
 
 ################## Start of IntegrationTest ##################
-class PriceTrendModule:
-    def __init__(self):
-        self.fs = FsModule()
-        self.sc = Scraper()
-
-    def createNewListingData(self):
-        
-        newListingUrls = self.fs.getNewListingURLs()
-
-        for obj in newListingUrls:
-            l = self.sc.scrapeInitialListing(obj.url)
-
-            self.fs.createListing(l.listingName, l.listingID, l.listingURL, l.storeName, l.storeArea)
-            self.fs.insertSingleListingDataRow(l.listingID, l.dataRow)
-
-
-
-
 
 app = PriceTrendModule()
-app.createNewListingData()
+# app.createNewListingData()
+app.updateListingData()
 
 
 
@@ -47,6 +30,8 @@ app.createNewListingData()
 #################### Start of FsModule ###################
 
 # fs = FsModule()
+
+# fs.getExistingListingURLs()
 
 # fs.createListing("RTX 2080","123","Enter Komputer","Jakarta Barat")
 

@@ -27,10 +27,10 @@ class ListingDataRow():
             u'price'        : self.price
         }
 
-class ExistingListingUrl():
+class ExistingListingObj():
 
-    def __init__(self, url, docAddr):
-        self.url        = url
+    def __init__(self, listingID, docAddr):
+        self.listingID  = listingID
         self.docAddr    = docAddr
 
     def toDict(self):

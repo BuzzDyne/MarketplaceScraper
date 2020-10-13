@@ -160,8 +160,6 @@ class Scraper:
         r = requests.post(url= API_ENDPOINT, json=byProductID)
         dataTree = r.json()['data']['getPDPInfo']
 
-        print()
-
         res = ListingDataRow()
 
         res.sold            = dataTree['txStats']['itemSold']

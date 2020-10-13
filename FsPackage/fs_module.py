@@ -7,13 +7,12 @@ from firebase_admin import firestore
 
 import FsPackage.utils as utils
 
-from DataModel.fs_package_model import ListingDataRow, ExistingListingUrl, NewListingUrl
+from DataModel.fs_package_model import ListingDataRow, ExistingListingObj, NewListingUrl
 
 cred = credentials.Certificate("pricetrend-8d62c-ecd1490085a6.json")
 
 addr = {
   "NewListing"      : "Scraper/newListing/UrlList",
-  "ExistingListing" : "Scraper/existingListing",
   "Listings"        : "Listings"
 }
 
@@ -45,10 +44,14 @@ class FsModule:
       return result
 
     def getExistingListingURLs(self):
-      """(TODO) Returns a list of ExistingListingUrl obj"""
-      doc = self.db.document(addr['ExistingListing']).get()
+      """Returns a list of ExistingListingUrl obj"""
+      docs = self.db.collection(addr['Listings']).get()
+      resList = []
 
-      return doc.to_dict()["urls"]
+      for doc in docs:
+        resList.append(ExistingListingObj(doc.to_dict()['listingID'], doc.reference.path))
+
+      return resList
 
     # ListingsCol 
     def createListing(self, listingName, listingID, listingUrl, storeName, storeArea):
