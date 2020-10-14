@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 import firebase_admin
@@ -9,7 +9,7 @@ import FsPackage.utils as utils
 
 from DataModel.fs_package_model import ListingDataRow, ExistingListingObj, NewListingUrl
 
-cred = credentials.Certificate("pricetrend-8d62c-ecd1490085a6.json")
+fsCredPath = "pricetrend-8d62c-ecd1490085a6.json"
 
 addr = {
   "NewListing"      : "Scraper/newListing/UrlList",
@@ -23,7 +23,8 @@ class FsModule:
       Requires Firestore's JSON Auth Key to be placed on the same dir as this module"""
 
     def __init__(self):
-      firebase_admin.initialize_app(cred)        
+      cred = credentials.Certificate(fsCredPath)
+      firebase_admin.initialize_app(cred)
       self.db = firestore.client()
 
     # ScraperCol 
@@ -57,8 +58,11 @@ class FsModule:
       docRef.update(data)
 
     def getExistingListingURLs(self):
-      """Returns a list of ExistingListingUrl obj"""
-      docs = self.db.collection(addr['Listings']).get()
+      """Returns a list of ExistingListingUrl obj which was updated at least 20 hours ago"""
+      
+      staleDataTS = datetime.now(tz=pytz.timezone('Asia/Jakarta')) + timedelta(hours=-20)
+
+      docs = self.db.collection(addr['Listings']).where('latestData.ts', '<=', staleDataTS).get()
       resList = []
 
       for doc in docs:
