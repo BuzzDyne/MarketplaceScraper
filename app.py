@@ -35,3 +35,7 @@ class App:
       for obj in listObj:
           dataRow = self.sc.scrapeListingDataRow(obj.listingID)
           self.fs.insertSingleListingDataRow(obj.listingID, dataRow)
+
+app = App()
+app.createNewListingData()
+app.updateListingData()
