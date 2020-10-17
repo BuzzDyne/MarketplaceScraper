@@ -5,15 +5,9 @@ import pytz
 from ScraperPackage.scraper_module import Scraper
 from FsPackage.fs_module import FsModule
 
-now = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d_%H-%M-%S")
+updateLogFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d_%H-%M-%S")
+createLogFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d")
 LOG_FORMAT = "%(levelname)s,%(asctime)s.%(msecs)03d,%(module)s<%(funcName)s>,%(message)s"
-
-logging.basicConfig(
-  filename='logs/{}.csv'.format(now), 
-  level=logging.INFO, 
-  format=LOG_FORMAT,
-  datefmt='%Y-%m-%d %H:%M:%S')
-logger = logging.getLogger()
 
 class App:
     def __init__(self):
@@ -28,6 +22,13 @@ class App:
         4. Add the first DataRow Doc to 'data' subcol
         5. Mark created 'NewListing'
       """
+      logging.basicConfig(
+        filename='logs/create/{}.csv'.format(createLogFileName), 
+        level=logging.INFO, 
+        format=LOG_FORMAT,
+        datefmt='%Y-%m-%d %H:%M:%S')
+      logger = logging.getLogger()
+
       newListingUrls = self.fs.getNewListingURLs()
       newListingCount = len(newListingUrls)
 
@@ -52,6 +53,14 @@ class App:
         2. Scrape data
         3. create a new DataRow Doc inside each Listing Doc
       """
+
+      logging.basicConfig(
+        filename='logs/update/{}.csv'.format(updateLogFileName), 
+        level=logging.INFO, 
+        format=LOG_FORMAT,
+        datefmt='%Y-%m-%d %H:%M:%S')
+      logger = logging.getLogger()
+
       listObj = self.fs.getExistingListingURLs()
       countObj = len(listObj)
 
@@ -67,8 +76,10 @@ class App:
       else:
         logging.info("No ExistingListing needs to be updated")
 
-def init():
+def create():
   app = App()
-
   app.createNewListingData()
+
+def update():
+  app = App()
   app.updateListingData()

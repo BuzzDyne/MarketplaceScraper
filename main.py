@@ -1,6 +1,6 @@
 import sys
 
-import app
+from app import create, update
 
 """
     Must be called with either one of two params
@@ -15,9 +15,9 @@ def checkArgs():
         print("One and only one argument required!")
     else:
         if(sys.argv[1] == "--update"):
-            print('daily')
+            update()
         elif(sys.argv[1] == "--create"):
-            print('cont')
+            create()
         else:
             print("Wrong argument!\n('--update' or '--create'")
 
