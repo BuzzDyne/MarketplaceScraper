@@ -1,0 +1,5 @@
+INFO,2020-10-17 20:50:20.458,app<updateListingData>,Started updating 4 Listing(s)...
+INFO,2020-10-17 20:50:20.889,app<updateListingData>,Successfully updated 1 of 4 (ListingID:670752681)
+INFO,2020-10-17 20:50:21.285,app<updateListingData>,Successfully updated 2 of 4 (ListingID:404753205)
+INFO,2020-10-17 20:50:21.700,app<updateListingData>,Successfully updated 3 of 4 (ListingID:940630085)
+INFO,2020-10-17 20:50:22.106,app<updateListingData>,Successfully updated 4 of 4 (ListingID:1160993673)
