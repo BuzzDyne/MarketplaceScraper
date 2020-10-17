@@ -67,11 +67,8 @@ class App:
       else:
         logging.info("No ExistingListing needs to be updated")
 
-def main():
+def init():
   app = App()
 
   app.createNewListingData()
   app.updateListingData()
-
-if __name__ == '__main__':
-  main()
