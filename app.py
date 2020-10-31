@@ -5,8 +5,7 @@ import pytz
 from ScraperPackage.scraper_module import Scraper
 from FsPackage.fs_module import FsModule
 
-updateLogFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d_%H-%M-%S")
-createLogFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d")
+logFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m")
 LOG_FORMAT = "%(levelname)s,%(asctime)s.%(msecs)03d,%(module)s<%(funcName)s>,%(message)s"
 
 class App:
@@ -23,7 +22,7 @@ class App:
         5. Mark created 'NewListing'
       """
       logging.basicConfig(
-        filename='logs/create/{}.csv'.format(createLogFileName), 
+        filename='logs/create/{}.csv'.format(logFileName), 
         level=logging.INFO, 
         format=LOG_FORMAT,
         datefmt='%Y-%m-%d %H:%M:%S')
@@ -55,7 +54,7 @@ class App:
       """
 
       logging.basicConfig(
-        filename='logs/update/{}.csv'.format(updateLogFileName), 
+        filename='logs/update/{}.csv'.format(logFileName), 
         level=logging.INFO, 
         format=LOG_FORMAT,
         datefmt='%Y-%m-%d %H:%M:%S')
