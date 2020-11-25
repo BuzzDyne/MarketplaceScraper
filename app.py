@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import pytz
 
 from ScraperPackage.scraper_module import Scraper
+from ScraperPackage.scraper_status_code import ScraperStatusCode as STATUS
 from FsPackage.fs_module import FsModule
 
 logFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m")
@@ -69,8 +70,18 @@ class App:
         i = 1
         for obj in listObj:
           dataRow = self.sc.scrapeListingDataRow(obj.listingID)
-          self.fs.insertSingleListingDataRow(obj.listingID, dataRow)
-          logging.info("Successfully updated {} of {} (ListingID:{})".format(i,countObj,obj.listingID))
+
+          if dataRow.statusCode is STATUS.SUCCESS:
+            self.fs.insertSingleListingDataRow(obj.listingID, dataRow)
+            logging.info("Successfully updated {} of {} (ListingID:{})".format(i,countObj,obj.listingID))
+
+          elif dataRow.statusCode is STATUS.PRODUCT_NOT_FOUND:
+            # TODO implement Listing Status and make it "Deleted" if product is no longer being listed
+            logging.info("Listing is not found {} of {} (ListingID:{})".format(i,countObj,obj.listingID))
+
+          else:
+            logging.info("Unknown error occurs {} of {} (ListingID:{})".format(i,countObj,obj.listingID))
+
           i += 1
       else:
         logging.info("No ExistingListing needs to be updated")
