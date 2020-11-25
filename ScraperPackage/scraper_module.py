@@ -165,7 +165,7 @@ class Scraper:
         # ScrapeListing Error Handling
         if(r.json()['data'] == None):
             # Product Not Found
-            if('20014101' in r.json()['errors'][0]['message']):
+            if('2001410' in r.json()['errors'][0]['message']):
                 return ListingDataRow(statusCode=STATUS.PRODUCT_NOT_FOUND)
 
             return ListingDataRow(statusCode=STATUS.UNKNOWN_ERROR)
