@@ -1,10 +1,11 @@
 from datetime import datetime
+from ScraperPackage.scraper_status_code import ScraperStatusCode as STATUS
 import pytz
 
 class ListingDataRow():
     """A Model class used to contain a single Listing Data row to be pushed to DB"""
 
-    def __init__(self, sold=None, seen=None, stock=None, reviewCount=None, reviewScore=None, price=None, ts=None):
+    def __init__(self, sold=None, seen=None, stock=None, reviewCount=None, reviewScore=None, price=None, ts=None, statusCode=None):
         self.ts             = datetime.now(tz=pytz.timezone('Asia/Jakarta'))
         self.sold           = sold          if sold is not None else -1
         self.seen           = seen          if seen is not None else -1
@@ -12,6 +13,8 @@ class ListingDataRow():
         self.reviewCount    = reviewCount   if reviewCount is not None else -1
         self.reviewScore    = reviewScore   if reviewScore is not None else -1   # 0-100
         self.price          = price         if price is not None else -1
+        # 200 [Success], 404 [Not Found], 0 [Unknown Error]
+        self.statusCode     = statusCode    if statusCode is not None else STATUS.UNKNOWN_ERROR
 
         if(ts is not None):
             self.ts = ts

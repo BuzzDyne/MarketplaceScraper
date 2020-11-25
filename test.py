@@ -11,9 +11,9 @@ from app import App
 
 ################## Start of IntegrationTest ##################
 
-# app = App()
+app = App()
 # app.createNewListingData()
-# app.updateListingData()
+app.updateListingData()
 
 
 
@@ -25,7 +25,7 @@ from app import App
 # print(sc.getShopNameByDomain("tokorrj"))
 
 # x = sc.scrapeInitialListing("https://www.tokopedia.com/nanokomputer/processor-amd-ryzen-3-3100-matisse-am4-4-core-gen-zen-2-cpu")
-# x = sc.scrapeListingDataRow(869760736)
+# x = sc.scrapeListingDataRow(613013164)
 # print(x.toDict())
 
 

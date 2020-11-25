@@ -5,6 +5,7 @@ from DataModel.listingObj import ListingObj
 from DataModel.fs_package_model import ListingDataRow
 
 from ScraperPackage import utils
+from ScraperPackage.scraper_status_code import ScraperStatusCode as STATUS
 
 # 1. Need to scrape listing given its Listing URL
     # Problem:
@@ -125,7 +126,9 @@ class Scraper:
         return dataTree['data']['shopInfoByID']['result'][0]['shopCore']['name']
 
     def scrapeListingDataRow(self, listingID):
-        """Returns a ListingDataRow of a Listing given its ListingID"""
+        """Returns a ListingDataRow of a Listing given its ListingID
+        
+        ListingDataRow have a field named 'statusCode' to indicate the result of the request"""
 
         byProductID = {
             "operationName":"PDPInfoQuery",
@@ -158,6 +161,15 @@ class Scraper:
         }
 
         r = requests.post(url= API_ENDPOINT, json=byProductID)
+
+        # ScrapeListing Error Handling
+        if(r.json()['data'] == None):
+            # Product Not Found
+            if('20014101' in r.json()['errors'][0]['message']):
+                return ListingDataRow(statusCode=STATUS.PRODUCT_NOT_FOUND)
+
+            return ListingDataRow(statusCode=STATUS.UNKNOWN_ERROR)
+
         dataTree = r.json()['data']['getPDPInfo']
 
         res = ListingDataRow()
