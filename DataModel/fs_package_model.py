@@ -14,7 +14,7 @@ class ListingDataRow():
         self.reviewScore    = reviewScore   if reviewScore is not None else -1   # 0-100
         self.price          = price         if price is not None else -1
         # 200 [Success], 404 [Not Found], 0 [Unknown Error]
-        self.statusCode     = statusCode    if statusCode is not None else STATUS.UNKNOWN_ERROR
+        self.statusCode     = statusCode    if statusCode is not None else STATUS.SUCCESS
 
         if(ts is not None):
             self.ts = ts
