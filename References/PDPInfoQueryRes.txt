@@ -1,0 +1,182 @@
+'{"basic": {"id": 181607579, "shopID": 711352, "name": "Promo ORICO 2139U3 casing hardisk Transparan 2.5 USB 3.0 Enclosure", "alias": "promo-orico-2139u3-casing-hardisk-transparan-25-usb-30-enclosure", "price": 93060, "priceCurrency": "IDR", "lastUpdatePrice": "08-12-2020, 10:56 WIB", "description": "GARANSI 2 TAHUN GANTI BARU ( ITECH ) BEST QUALITY &amp; BEST PRICE\\nSETELAH BELI REGITER Serial Number PRODUK ANDA DISINI http://orico.co.id/warranty\\n\\nMOHON MAAF DAN MOHON PERHATIANNYA YA GAN :)\\nPEMBELI YANG BIJAK AKAN SEGERA BACA , BUKA DAN MENGERTI PESAN DIBAWAH INI : KLIK DI LINK BAWAH\\nhttps://www.tokopedia.com/supermassive-ina/note/659981/garansi-2-tahun-resmi-setelah-beli-daftar-kan-sn-disini-httporicocoidwarranty\\n\\n*** PASTIKAN ANDA MEMBELI DARI DISTRIBUTOR RESMI UNTUK MENDAPATKAN PELAYANAN AFTER SALES TERBAIK ***\\n\\n1.) Compatible HDD Type : 2.5 inch HDD / SSD\\n2.) Output : USB3.0 Micro B\\n3.) Controller : NS1068X\\n4.) Capacity : 2TB\\n5.) Dimension : 124.5 x 79 x 13mm\\n6.) Driver : Driver Not Required\\n7.) Supported System : Windows 2000 / XP / 7 / 8 / 10, Linux, Mac OS 9.1 or above\\n8.) Safety Approval : CE / FCC / RoHS\\n\\nUSB HUB bisa lihat disini: https://www.tokopedia.com/supermassive-ina/etalase/usb-hub\\n\\nKabel : https://www.tokopedia.com/supermassive-ina/etalase/kabel-konektor\\n\\nCHarger beberapa port dengan kualitas terbaik : https://www.tokopedia.com/supermassive-ina/etalase/charger", "minOrder": 1, "maxOrder": 0, "status": "ACTIVE", "weight": 125, "weightUnit": "GRAM", "condition": "NEW", "url": "https://www.tokopedia.com/supermassive-ina/promo-orico-2139u3-casing-hardisk-transparan-25-usb-30-enclosure", "sku": "2139U3", "gtin": "", "isKreasiLokal": false, "isMustInsurance": false, "isEligibleCOD": true, "isLeasing": false, "catalogID": 0, "needPrescription": false}, "category": {"id": "363", "name": "Storage Cases & Docking", "title": "Storage Cases & Docking", "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop/media-penyimpanan-data/storage-cases-docking", "isAdult": false, "detail": [{"id": "297", "name": "Komputer & Laptop", "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop"}, {"id": "320", "name": "Media Penyimpanan Data", "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop/media-penyimpanan-data"}, {"id": "363", "name": "Storage Cases & Docking", "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop/media-penyimpanan-data/storage-cases-docking"}]}, "pictures": [{"picID": "3708678098", "fileName": "6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640", "filePath": "product-1/2020/9/1/6001039", "description": "", "isFromIG": false, "width": 640, "height": 640, "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2020/9/1/6001039/6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640", "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2020/9/1/6001039/6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640", "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2020/9/1/6001039/6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640", "status": 2}, {"picID": "367429656", "fileName": "6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg", "filePath": "product-1/2017/4/2/6001039", "description": "", "isFromIG": false, "width": 800, "height": 0, "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2017/4/2/6001039/6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg", "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2017/4/2/6001039/6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg", "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2017/4/2/6001039/6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg", "status": 1}, {"picID": "367429657", "fileName": "6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg", "filePath": "product-1/2017/4/2/6001039", "description": "", "isFromIG": false, "width": 1000, "height": 0, "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2017/4/2/6001039/6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg", "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2017/4/2/6001039/6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg", "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2017/4/2/6001039/6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg", "status": 1}, {"picID": "374734471", "fileName": "181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg", "filePath": "product-1/2017/5/26/181607579", "description": "", "isFromIG": false, "width": 1000, "height": 1000, "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2017/5/26/181607579/181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg", "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2017/5/26/181607579/181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg", "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2017/5/26/181607579/181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg", "status": 1}, {"picID": "533617538", "fileName": "181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg", "filePath": "product-1/2018/1/12/181607579", "description": "", "isFromIG": false, "width": 700, "height": 700, "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2018/1/12/181607579/181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg", "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2018/1/12/181607579/181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg", "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2018/1/12/181607579/181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg", "status": 1}], "preorder": {"isActive": false, "duration": 0, "timeUnit": "UNKNOWN"}, "wholesale": [{"minQty": 2, "price": 76000}], "videos": [{"source": "youtube", "url": "ep5xXNHk4sc"}], "campaign": {"campaignID": "", "campaignType": 0, "campaignTypeName": "", "originalPrice": 0, "discountedPrice": 0, "isAppsOnly": false, "isActive": false, "percentageAmount": 0, "stock": 0, "originalStock": 0, "startDate": "0001-01-01T00:00:00Z", "endDate": "0001-01-01T00:00:00Z", "endDateUnix": -2006079856, "appLinks": "", "hideGimmick": false}, "stats": {"countView": 50198, "countReview": 899, "countTalk": 358, "rating": 97}, "txStats": {"txSuccess": 1645, "txReject": 3, "itemSold": 2045, "itemSoldPaymentVerified": 2055}, "cashback": {"percentage": 0}, "variant": {"parentID": "0", "isVariant": false}, "stock": {"useStock": true, "value": 8481, "stockWording": ""}, "menu": {"name": "HARDISK CASE, DOCKING, ENCLOSURE"}}'
+>>> json.dumps(data, indent=1)
+
+'{
+ "basic": {
+  "id": 181607579,
+  "shopID": 711352,
+  "name": "Promo ORICO 2139U3 casing hardisk Transparan 2.5 USB 3.0 Enclosure",
+  "alias": "promo-orico-2139u3-casing-hardisk-transparan-25-usb-30-enclosure",
+  "price": 93060,
+  "priceCurrency": "IDR",
+  "lastUpdatePrice": "08-12-2020, 10:56 WIB",
+  "description": "GARANSI 2 TAHUN GANTI BARU ( ITECH ) BEST QUALITY &amp; BEST PRICE\\nSETELAH BELI REGITER Serial Number PRODUK ANDA DISINI http://orico.co.id/warranty\\n\\nMOHON MAAF DAN MOHON PERHATIANNYA YA GAN :)\\nPEMBELI YANG BIJAK AKAN SEGERA BACA , BUKA DAN MENGERTI PESAN DIBAWAH INI : KLIK DI LINK BAWAH\\nhttps://www.tokopedia.com/supermassive-ina/note/659981/garansi-2-tahun-resmi-setelah-beli-daftar-kan-sn-disini-httporicocoidwarranty\\n\\n*** PASTIKAN ANDA MEMBELI DARI DISTRIBUTOR RESMI UNTUK MENDAPATKAN PELAYANAN AFTER SALES TERBAIK ***\\n\\n1.) Compatible HDD Type : 2.5 inch HDD / SSD\\n2.) Output : USB3.0 Micro B\\n3.) Controller : NS1068X\\n4.) Capacity : 2TB\\n5.) Dimension : 124.5 x 79 x 13mm\\n6.) Driver : Driver Not Required\\n7.) Supported System : Windows 2000 / XP / 7 / 8 / 10, Linux, Mac OS 9.1 or above\\n8.) Safety Approval : CE / FCC / RoHS\\n\\nUSB HUB bisa lihat disini: https://www.tokopedia.com/supermassive-ina/etalase/usb-hub\\n\\nKabel : https://www.tokopedia.com/supermassive-ina/etalase/kabel-konektor\\n\\nCHarger beberapa port dengan kualitas terbaik : https://www.tokopedia.com/supermassive-ina/etalase/charger",
+  "minOrder": 1,
+  "maxOrder": 0,
+  "status": "ACTIVE",
+  "weight": 125,
+  "weightUnit": "GRAM",
+  "condition": "NEW",
+  "url": "https://www.tokopedia.com/supermassive-ina/promo-orico-2139u3-casing-hardisk-transparan-25-usb-30-enclosure",
+  "sku": "2139U3",
+  "gtin": "",
+  "isKreasiLokal": false,
+  "isMustInsurance": false,
+  "isEligibleCOD": true,
+  "isLeasing": false,
+  "catalogID": 0,
+  "needPrescription": false
+ },
+ "category": {
+  "id": "363",
+  "name": "Storage Cases & Docking",
+  "title": "Storage Cases & Docking",
+  "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop/media-penyimpanan-data/storage-cases-docking",
+  "isAdult": false,
+  "detail": [
+   {
+    "id": "297",
+    "name": "Komputer & Laptop",
+    "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop"
+   },
+   {
+    "id": "320",
+    "name": "Media Penyimpanan Data",
+    "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop/media-penyimpanan-data"
+   },
+   {
+    "id": "363",
+    "name": "Storage Cases & Docking",
+    "breadcrumbURL": "https://www.tokopedia.com/p/komputer-laptop/media-penyimpanan-data/storage-cases-docking"
+   }
+  ]
+ },
+ "pictures": [
+  {
+   "picID": "3708678098",
+   "fileName": "6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640",
+   "filePath": "product-1/2020/9/1/6001039",
+   "description": "",
+   "isFromIG": false,
+   "width": 640,
+   "height": 640,
+   "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2020/9/1/6001039/6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640",
+   "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2020/9/1/6001039/6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640",
+   "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2020/9/1/6001039/6001039_255be949-935a-46ec-890e-932ec5c25a60_640_640",
+   "status": 2
+  },
+  {
+   "picID": "367429656",
+   "fileName": "6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg",
+   "filePath": "product-1/2017/4/2/6001039",
+   "description": "",
+   "isFromIG": false,
+   "width": 800,
+   "height": 0,
+   "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2017/4/2/6001039/6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg",
+   "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2017/4/2/6001039/6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg",
+   "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2017/4/2/6001039/6001039_52896e9f-eefa-4c85-9fda-792b95c7e111_800_800.jpg",
+   "status": 1
+  },
+  {
+   "picID": "367429657",
+   "fileName": "6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg",
+   "filePath": "product-1/2017/4/2/6001039",
+   "description": "",
+   "isFromIG": false,
+   "width": 1000,
+   "height": 0,
+   "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2017/4/2/6001039/6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg",
+   "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2017/4/2/6001039/6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg",
+   "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2017/4/2/6001039/6001039_74d5e340-76a2-4832-9bb1-3b04f7055f9a_1000_1000.jpg",
+   "status": 1
+  },
+  {
+   "picID": "374734471",
+   "fileName": "181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg",
+   "filePath": "product-1/2017/5/26/181607579",
+   "description": "",
+   "isFromIG": false,
+   "width": 1000,
+   "height": 1000,
+   "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2017/5/26/181607579/181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg",
+   "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2017/5/26/181607579/181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg",
+   "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2017/5/26/181607579/181607579_b2855f2d-b3d8-4488-a23d-a26b6acfc01f_1000_1000.jpg",
+   "status": 1
+  },
+  {
+   "picID": "533617538",
+   "fileName": "181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg",
+   "filePath": "product-1/2018/1/12/181607579",
+   "description": "",
+   "isFromIG": false,
+   "width": 700,
+   "height": 700,
+   "urlOriginal": "https://ecs7.tokopedia.net/img/cache/700/product-1/2018/1/12/181607579/181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg",
+   "urlThumbnail": "https://ecs7.tokopedia.net/img/cache/200-square/product-1/2018/1/12/181607579/181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg",
+   "url300": "https://ecs7.tokopedia.net/img/cache/300/product-1/2018/1/12/181607579/181607579_eaecc26f-d9cd-4c09-98b8-3d1bb0414fd5_700_700.jpg",
+   "status": 1
+  }
+ ],
+ "preorder": {
+  "isActive": false,
+  "duration": 0,
+  "timeUnit": "UNKNOWN"
+ },
+ "wholesale": [
+  {
+   "minQty": 2,
+   "price": 76000
+  }
+ ],
+ "videos": [
+  {
+   "source": "youtube",
+   "url": "ep5xXNHk4sc"
+  }
+ ],
+ "campaign": {
+  "campaignID": "",
+  "campaignType": 0,
+  "campaignTypeName": "",
+  "originalPrice": 0,
+  "discountedPrice": 0,
+  "isAppsOnly": false,
+  "isActive": false,
+  "percentageAmount": 0,
+  "stock": 0,
+  "originalStock": 0,
+  "startDate": "0001-01-01T00:00:00Z",
+  "endDate": "0001-01-01T00:00:00Z",
+  "endDateUnix": -2006079856,
+  "appLinks": "",
+  "hideGimmick": false
+ },
+ "stats": {
+  "countView": 50198,
+  "countReview": 899,
+  "countTalk": 358,
+  "rating": 97
+ },
+ "txStats": {
+  "txSuccess": 1645,
+  "txReject": 3,
+  "itemSold": 2045,
+  "itemSoldPaymentVerified": 2055
+ },
+ "cashback": {
+  "percentage": 0
+ },
+ "variant": {
+  "parentID": "0",
+  "isVariant": false
+ },
+ "stock": {
+  "useStock": true,
+  "value": 8481,
+  "stockWording": ""
+ },
+ "menu": {
+  "name": "HARDISK CASE, DOCKING, ENCLOSURE"
+ }
+}'

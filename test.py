@@ -8,6 +8,7 @@ from ClientSimulatorPackage.client_simulator import ClientSimulator
 import ClientSimulatorPackage.utils as CspUtils
 
 from app import App
+from tool import Tool
 
 ################## Start of IntegrationTest ##################
 
@@ -66,7 +67,6 @@ app.updateListingData()
 ################## Start of ClientSimulator ##################
 
 # client = ClientSimulator("admin")
-# # client.createNewUser("First User", "")
 
 # # UrlList Example
 # urlList = [
@@ -96,3 +96,10 @@ app.updateListingData()
 # client.createNewListingURLs(urlList)
 
 ################## End of ClientSimulator ##################
+################## Start of Tool ##################
+
+# t = Tool()
+
+# t.addImageURLToExistingListing()
+
+################## End of Tool ##################

@@ -65,7 +65,8 @@ class Scraper:
                         stockWording
                     }
                     pictures {
-                        url300
+                        urlOriginal 
+                        urlThumbnail
                     }
                 }
             }
@@ -80,7 +81,8 @@ class Scraper:
         res.listingName     = dataTree['basic']['name']
         res.listingID       = dataTree['basic']['id']
         res.listingURL      = listingUrl
-        res.listingImgURL   = dataTree['pictures'][0]['url300']
+        res.listingImgURL   = dataTree['pictures'][0]['urlOriginal']
+        res.listingThumbURL = dataTree['pictures'][0]['urlThumbnail']
         res.storeName       = self.getShopNameByDomain(shopDomain)
         # res.storeArea     = xxxx
 
