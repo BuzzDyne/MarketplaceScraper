@@ -38,7 +38,7 @@ class ExistingListingObj():
 
     def toDict(self):
         return {
-            u'url'      : self.url,
+            u'listingID': self.listingID,
             u'docAddr'  : self.docAddr
         }
 

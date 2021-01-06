@@ -70,8 +70,24 @@ class FsModule:
 
       return resList
 
+    def getAllExistingListingURLs(self):
+      """Returns a list of ExistingListingUrl obj
+      
+      Was only used for 'Tools' to add images to all existing ListingDoc (This was from before ImgUrls were saved to db)"""
+
+      docs = self.db.collection(addr['Listings']).get()
+      resList = []
+
+      print(f'Found {len(docs)} docs')
+
+      for doc in docs:
+        print(f'Doc {doc.id} => {doc.to_dict()["listingName"]}')
+        resList.append(ExistingListingObj(doc.to_dict()['listingID'], doc.reference.path))
+
+      return resList
+
     # ListingsCol 
-    def createListing(self, listingName, listingID, listingUrl, storeName, storeArea):
+    def createListing(self, listingName, listingID, listingUrl, listingImgURL, listingThumbURL, storeName, storeArea):
       """Write a new Listing Document given the initial data,
       then updates the existingListing document with new ListingDocAddr and listingURL
 
@@ -121,6 +137,8 @@ class FsModule:
         u'listingName'  : listingName,
         u'listingID'    : listingID,
         u'listingURL'   : listingUrl,
+        u'listingImgUrl': listingImgURL,
+        u'listingThumbUrl': listingThumbURL,
         u'storeName'    : storeName,
         u'storeArea'    : storeArea,
         u'latestData'   : latestData
@@ -170,3 +188,15 @@ class FsModule:
 
       parentRef = self.db.document(parentDocAddr)
       parentRef.update(latestData_dict)
+
+    def updateListingWithImgUrls(self, listingDocAddr, imgUrl, thumbUrl):
+      """Updates existing ListingDoc with ImgURLs
+
+      This was used when ImgURLs werent being saved at ListingDoc creation.
+      """
+      listingRef = self.db.document(listingDocAddr)
+
+      listingRef.set({
+        u'listingImgURL'  : imgUrl,
+        u'listingThumbURL': thumbUrl
+      }, merge=True)

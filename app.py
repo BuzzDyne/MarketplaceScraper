@@ -38,7 +38,7 @@ class App:
         for obj in newListingUrls:
           l = self.sc.scrapeInitialListing(obj.url)
 
-          listingDocPath = self.fs.createListing(l.listingName, l.listingID, l.listingURL, l.storeName, l.storeArea)
+          listingDocPath = self.fs.createListing(l.listingName, l.listingID, l.listingURL, l.listingImgURL, l.listingThumbURL, l.storeName, l.storeArea)
           self.fs.insertSingleListingDataRow(l.listingID, l.dataRow)
           
           self.fs.setNewListingDocAddr(obj.selfDocAddr, listingDocPath)
