@@ -59,6 +59,10 @@ class Scraper:
                     txStats {
                         itemSold
                     }
+                    campaign{
+                        discountedPrice
+                        isActive
+                    }
                     stock {
                         useStock
                         value
@@ -76,6 +80,8 @@ class Scraper:
         r = requests.post(url= API_ENDPOINT, json=byUrlPayload)
         dataTree = r.json()['data']['getPDPInfo']
 
+        isDiscounted = dataTree['campaign']['isActive']
+
         res = ListingObj()
 
         res.listingName     = dataTree['basic']['name']
@@ -91,7 +97,7 @@ class Scraper:
         stock           = dataTree['stock']['value']
         reviewCount     = dataTree['stats']['countReview']
         reviewScore     = dataTree['stats']['rating']
-        price           = dataTree['basic']['price']
+        price           = dataTree['campaign']['discountedPrice'] if isDiscounted else dataTree['basic']['price']
 
         res.setDataRow(sold,seen,stock,reviewCount,reviewScore,price)
 
@@ -153,6 +159,10 @@ class Scraper:
                     txStats {
                         itemSold
                     }
+                    campaign{
+                        discountedPrice
+                        isActive
+                    }
                     stock {
                         useStock
                         value
@@ -174,6 +184,8 @@ class Scraper:
 
         dataTree = r.json()['data']['getPDPInfo']
 
+        isDiscounted = dataTree['campaign']['isActive']
+
         res = ListingDataRow()
 
         res.sold            = dataTree['txStats']['itemSold']
@@ -181,6 +193,6 @@ class Scraper:
         res.stock           = dataTree['stock']['value']
         res.reviewCount     = dataTree['stats']['countReview']
         res.reviewScore     = dataTree['stats']['rating']
-        res.price           = dataTree['basic']['price']
+        res.price           = dataTree['campaign']['discountedPrice'] if isDiscounted else dataTree['basic']['price']
 
         return res
