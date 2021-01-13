@@ -141,7 +141,7 @@ class Scraper:
         byProductID = {
             "operationName":"PDPInfoQuery",
             "variables":{
-                "productID" : listingID
+                "productID" : int(listingID)
             },
             "query": """
             query PDPInfoQuery($productID:Int){
