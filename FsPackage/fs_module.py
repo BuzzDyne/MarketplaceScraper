@@ -70,22 +70,6 @@ class FsModule:
 
       return resList
 
-    def getAllExistingListingURLs(self):
-      """Returns a list of ExistingListingUrl obj
-      
-      Was only used for 'Tools' to add images to all existing ListingDoc (This was from before ImgUrls were saved to db)"""
-
-      docs = self.db.collection(addr['Listings']).get()
-      resList = []
-
-      print(f'Found {len(docs)} docs')
-
-      for doc in docs:
-        print(f'Doc {doc.id} => {doc.to_dict()["listingName"]}')
-        resList.append(ExistingListingObj(doc.to_dict()['listingID'], doc.reference.path))
-
-      return resList
-
     # ListingsCol 
     def createListing(self, listingName, listingID, listingUrl, listingImgURL, listingThumbURL, storeName, storeArea):
       """Write a new Listing Document given the initial data,
@@ -200,3 +184,31 @@ class FsModule:
         u'listingImgURL'  : imgUrl,
         u'listingThumbURL': thumbUrl
       }, merge=True)
+
+    # TOOLS
+    def getAllExistingListingURLs(self):
+      """Returns a list of ExistingListingUrl obj
+      
+      Was only used for 'Tools' to add images to all existing ListingDoc (This was from before ImgUrls were saved to db)"""
+
+      docs = self.db.collection(addr['Listings']).get()
+      resList = []
+
+      print(f'Found {len(docs)} docs')
+
+      for doc in docs:
+        resList.append(ExistingListingObj(doc.to_dict()['listingID'], doc.reference.path))
+
+      return resList
+
+    def changeAllListingIDtoString(self):
+      """Swap ALL LISTING's ID field from int to String
+      
+      Was only used for 'Tools'"""
+      docs = self.getAllExistingListingURLs()
+
+      for doc in docs:
+        x = self.db.document(doc.docAddr)
+        x.set({
+          u'listingID'  : str(doc.listingID)
+        }, merge=True)

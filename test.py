@@ -12,9 +12,9 @@ from tool import Tool
 
 ################## Start of IntegrationTest ##################
 
-app = App()
+# app = App()
 # app.createNewListingData()
-app.updateListingData()
+# app.updateListingData()
 
 
 

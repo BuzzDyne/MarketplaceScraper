@@ -184,7 +184,6 @@ picQ = """ query PDPInfoQuery($productID:Int) {
 class Tool:
     def __init__(self):
         self.fs = FsModule()
-        self.sc = Scraper
 
     def addImageURLToExistingListing(self):
         # Get all Exisiting Listing DocID and URL
@@ -199,7 +198,6 @@ class Tool:
 
             # Save to DB
             self.fs.updateListingWithImgUrls(listing.toDict()["docAddr"], imgUrl, thumbUrl)
-
 
     def getListingImgAndThumbUrl(self, listingID):
         byProductID = {
@@ -228,7 +226,6 @@ class Tool:
         # }
 
         return imgUrl,thumbUrl
-
 
     def printPDPInfoByURL(self, listingURL):
         
