@@ -52,7 +52,7 @@ class NewListingUrl():
     def toDict(self):
         return {
             u'url'      : self.url,
-            u'docAddr'  : self.docAddr,
+            u'docAddr'  : self.selfDocAddr,
             u'users'    : self.users
         }
 

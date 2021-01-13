@@ -85,7 +85,7 @@ class Scraper:
         res = ListingObj()
 
         res.listingName     = dataTree['basic']['name']
-        res.listingID       = dataTree['basic']['id']
+        res.listingID       = str(dataTree['basic']['id'])
         res.listingURL      = listingUrl
         res.listingImgURL   = dataTree['pictures'][0]['urlOriginal']
         res.listingThumbURL = dataTree['pictures'][0]['urlThumbnail']
