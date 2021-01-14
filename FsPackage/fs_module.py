@@ -6,6 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 import FsPackage.utils as utils
+from FsPackage.scraper_enum import ScraperStatusCode as SC
 
 from DataModel.fs_package_model import ListingDataRow, ExistingListingObj, NewListingUrl
 
@@ -32,14 +33,11 @@ class FsModule:
     def getNewListingURLs(self):
       """Returns a list of NewListingUrl obj that haven't been created its listing"""
 
-      docs = self.db.collection(addr['NewListing']).where("isCreated", "==", False).get()
+      docs = self.db.collection(addr['NewListing']).where("statusCode", "==", SC.WAITING).get()
       
       result = []
 
       for doc in docs:
-        # TODO Handle users related thing here
-        # uids = doc.to_dict()['users']
-
         result.append(NewListingUrl(doc.get('url'), doc.reference.path, doc.get('users')))
 
       return result

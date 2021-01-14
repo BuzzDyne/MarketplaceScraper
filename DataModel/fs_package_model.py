@@ -44,15 +44,17 @@ class ExistingListingObj():
 
 class NewListingUrl():
 
-    def __init__(self, url, selfDocAddr, users):
+    def __init__(self, url, selfDocAddr, users, statusCode=None):
         self.url            = url
         self.selfDocAddr    = selfDocAddr
         self.users          = users
+        self.statusCode     = statusCode    if statusCode is not None else 0
 
     def toDict(self):
         return {
-            u'url'      : self.url,
-            u'docAddr'  : self.selfDocAddr,
-            u'users'    : self.users
+            u'url'          : self.url,
+            u'docAddr'      : self.selfDocAddr,
+            u'users'        : self.users,
+            u'statusCode'   : self.statusCode
         }
 
