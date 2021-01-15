@@ -25,8 +25,13 @@ class Scraper:
         """Returns a ListingObj containing scraped data from a given ListingUrl
         
         - Called when writing a new Listing Doc
-        - listingUrl must be in this format 'tokopedia.com/SHOP_DOMAIN/PRODUCT_KEY' """
+        - listingUrl must be in this format 'tokopedia.com/SHOP_DOMAIN/PRODUCT_KEY' 
+        - If Listing is not found, returns ListingObj with ListingID of None
+        """
         # https://www.tokopedia.com/supergamingid/intel-core-i5-10400f-coffee-lake-promo-gaming-murah
+
+        if listingUrl is None:
+            return ListingObj(None)
 
         x = listingUrl.split('/')
         productKey = x[-1]
@@ -78,30 +83,34 @@ class Scraper:
         }
 
         r = requests.post(url= API_ENDPOINT, json=byUrlPayload)
-        dataTree = r.json()['data']['getPDPInfo']
 
-        isDiscounted = dataTree['campaign']['isActive']
+        if r.json()['data'] is None:
+            return ListingObj(None)
+        else:
+            dataTree = r.json()['data']['getPDPInfo']
 
-        res = ListingObj()
+            isDiscounted = dataTree['campaign']['isActive']
 
-        res.listingName     = dataTree['basic']['name']
-        res.listingID       = str(dataTree['basic']['id'])
-        res.listingURL      = listingUrl
-        res.listingImgURL   = dataTree['pictures'][0]['urlOriginal']
-        res.listingThumbURL = dataTree['pictures'][0]['urlThumbnail']
-        res.storeName       = self.getShopNameByDomain(shopDomain)
-        # res.storeArea     = xxxx
+            res = ListingObj()
 
-        sold            = dataTree['txStats']['itemSold']
-        seen            = dataTree['stats']['countView']
-        stock           = dataTree['stock']['value']
-        reviewCount     = dataTree['stats']['countReview']
-        reviewScore     = dataTree['stats']['rating']
-        price           = dataTree['campaign']['discountedPrice'] if isDiscounted else dataTree['basic']['price']
+            res.listingName     = dataTree['basic']['name']
+            res.listingID       = str(dataTree['basic']['id'])
+            res.listingURL      = listingUrl
+            res.listingImgURL   = dataTree['pictures'][0]['urlOriginal']
+            res.listingThumbURL = dataTree['pictures'][0]['urlThumbnail']
+            res.storeName       = self.getShopNameByDomain(shopDomain)
+            # res.storeArea     = xxxx
 
-        res.setDataRow(sold,seen,stock,reviewCount,reviewScore,price)
+            sold            = dataTree['txStats']['itemSold']
+            seen            = dataTree['stats']['countView']
+            stock           = dataTree['stock']['value']
+            reviewCount     = dataTree['stats']['countReview']
+            reviewScore     = dataTree['stats']['rating']
+            price           = dataTree['campaign']['discountedPrice'] if isDiscounted else dataTree['basic']['price']
 
-        return res
+            res.setDataRow(sold,seen,stock,reviewCount,reviewScore,price)
+
+            return res
     
     def getShopNameByDomain(self, shopDomain):
         """Return a str of ShopName given the shopDomain"""

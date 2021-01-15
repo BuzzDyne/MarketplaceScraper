@@ -15,3 +15,6 @@ class ListingObj():
 
     def setDataRow(self, soldCount, seenCount, listingStock, reviewCount, reviewScore, priceProd):
         self.dataRow = ListingDataRow(soldCount,seenCount,listingStock,reviewCount,reviewScore,priceProd)
+    
+    def setDataRowByObj(self, listingDataRow):
+        self.dataRow = listingDataRow

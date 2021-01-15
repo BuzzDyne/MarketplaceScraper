@@ -37,10 +37,25 @@ from tool import Tool
 
 # fs = FsModule()
 
-# x = fs.getExistingListingURLs()
-# x = fs.getNewListingURLs()
+# print(fs.getListingDocAddrByID("305354471"))
 
-# fs.createListing("RTX 2080","123","Enter Komputer","Jakarta Barat")
+# x = fs.getExistingListingURLs()
+# x = fs.getListingObjByAddr("Listings/0q9mTr07evq78SdT5hMO")
+# x = fs.getListingLatestDataRowByAddr("Listings/0q9mTr07evq78SdT5hMO")
+# 
+# listingDocPath = "Listings/0q9mTr07evq78SdT5hMO"
+# listingDocID = listingDocPath.split('/')[-1]
+
+# latestDataRow = fs.getListingLatestDataRowByAddr(listingDocPath)
+# listingObj = fs.getListingObjByAddr(listingDocPath)
+# listingObj.setDataRowByObj(latestDataRow)
+
+# uid = 'YKDckU1oAwYkISaXRW9VA3uwDLY2'
+
+# fs.createTracking(uid, listingObj, listingDocID)
+
+# 
+# fs.createListing("TESTES","123","lUrl","lUrl","lUrl","Enter Komputer","Jakarta Barat")
 
 # data = ListingDataRow(55,55,45,555,555544)
 # fs.insertSingleListingDataRow("123", data)

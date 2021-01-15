@@ -1,4 +1,5 @@
 import re
+import requests
 
 def tagifyListingName(inputStr):
     """
@@ -101,3 +102,21 @@ def sliceArr(arr, startIndex, length):
     newlist = arr[startIndex-1:]
 
     return newlist[:length]
+
+def resolveShortUrl(url):
+    """Will return the actual (long) url of a given url, whether short or long
+    
+    will return None if given link is not from tokopedia"""
+
+    header = {
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
+        }
+    
+    if("tokopedia.link" in url):
+        r = requests.get(url, headers=header)
+        url = r.url
+        return url.split('?')[0]
+    elif("tokopedia.com" in url):
+        return url.split('?')[0]
+    else:
+        return None

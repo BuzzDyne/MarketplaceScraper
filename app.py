@@ -5,6 +5,7 @@ import pytz
 from ScraperPackage.scraper_module import Scraper
 from ScraperPackage.scraper_status_code import ScraperStatusCode as STATUS
 from FsPackage.fs_module import FsModule
+from FsPackage.scraper_enum import ScraperStatusCode as SC
 
 logFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m")
 LOG_FORMAT = "%(levelname)s,%(asctime)s.%(msecs)03d,%(module)s<%(funcName)s>,%(message)s"
@@ -36,15 +37,76 @@ class App:
         logging.info("Started scraping {} new Listing data...".format(newListingCount))
         i = 1
         for obj in newListingUrls:
-          l = self.sc.scrapeInitialListing(obj.url)
+          lObj = self.sc.scrapeInitialListing(obj.url)
 
-          # 
-          listingDocPath = self.fs.createListing(l.listingName, l.listingID, l.listingURL, l.listingImgURL, l.listingThumbURL, l.storeName, l.storeArea)
-          self.fs.insertSingleListingDataRow(l.listingID, l.dataRow)
-          
-          self.fs.setNewListingDocAddr(obj.selfDocAddr, listingDocPath)
-          logging.info("Successfully scraped {} of {} (ListingID:{})".format(i,newListingCount,l.listingID))
-          i += 1
+          # (NOT_FOUND Check)
+          if lObj.listingID is None:
+            self.fs.setNewListingDocAddr(obj.selfDocAddr, None, SC.NOT_FOUND)
+            logging.info("Listing Not Found -- {} of {} (ListingURL:{})".format(i,newListingCount,obj.url))
+            continue
+
+          # (EXISTED Check)
+          listingDocPath = self.fs.getListingDocAddrByID(lObj.listingID)
+          if listingDocPath is not None:
+
+            # Direct to existed Listing
+            self.fs.setNewListingDocAddr(obj.selfDocAddr, listingDocPath, SC.EXISTED)
+            logging.info("Listing has existed  {} of {} (ListingDocPath:{})".format(i,newListingCount,listingDocPath))
+
+            # For each User, set activeTracking's startData to latestDatarow
+            users_uid = obj.users
+
+            # Remove 'admin' from list
+            try:
+              users_uid.remove("admin")
+            except ValueError:
+              pass
+
+            # Get ListingData and its latestDataRow
+            listingDocID = listingDocPath.split('/')[-1]
+            latestDataRow = self.fs.getListingLatestDataRowByAddr(listingDocPath)
+            listingObj = self.fs.getListingObjByAddr(listingDocPath)
+            listingObj.setDataRowByObj(latestDataRow)
+
+            userCount = len(users_uid)
+            logging.info("Found {} user to be processed...".format(userCount))
+            i = 1
+            for uid in users_uid:
+              self.fs.createTracking(uid, listingObj, listingDocID)
+              logging.info("Processed user doc - {} of {} (uid:{})".format(i, userCount, uid))
+              i += 1
+          # CREATED
+          else:
+            listingDocPath = self.fs.createListing(lObj)
+            self.fs.insertSingleListingDataRow(lObj.listingID, lObj.dataRow)
+
+            self.fs.setNewListingDocAddr(obj.selfDocAddr, listingDocPath, SC.CREATED)
+            logging.info("Successfully scraped {} of {} (ListingID:{})".format(i, newListingCount, lObj.listingID))
+
+            # For each User, set activeTracking's startData to latestDatarow
+            users_uid = obj.users
+
+            # Remove 'admin' from list
+            try:
+              users_uid.remove("admin")
+            except ValueError:
+              pass
+
+            # Get ListingData and its latestDataRow
+            listingDocID = listingDocPath.split('/')[-1]
+            latestDataRow = self.fs.getListingLatestDataRowByAddr(listingDocPath)
+            listingObj = self.fs.getListingObjByAddr(listingDocPath)
+            listingObj.setDataRowByObj(latestDataRow)
+
+            userCount = len(users_uid)
+            logging.info("Found {} user to be processed...".format(userCount))
+            i = 1
+            for uid in users_uid:
+              self.fs.createTracking(uid, listingObj, listingDocID)
+              logging.info("Processed user doc - {} of {} (uid:{})".format(i, userCount, uid))
+              i += 1
+
+        i += 1
       else:
         logging.info("No new ListingUrls found")
 

@@ -9,6 +9,7 @@ import FsPackage.utils as utils
 from FsPackage.scraper_enum import ScraperStatusCode as SC
 
 from DataModel.fs_package_model import ListingDataRow, ExistingListingObj, NewListingUrl
+from DataModel.listingObj import ListingObj
 
 fsCredPath = "pricetrend-8d62c-ecd1490085a6.json"
 
@@ -38,23 +39,28 @@ class FsModule:
       result = []
 
       for doc in docs:
-        result.append(NewListingUrl(doc.get('url'), doc.reference.path, doc.get('users')))
+        url = doc.get('url')
+
+        url = utils.resolveShortUrl(url)
+
+        result.append(NewListingUrl(url, doc.reference.path, doc.get('users')))
 
       return result
 
-    def setNewListingDocAddr(self, selfAddr, listingDocAddr):
+    def setNewListingDocAddr(self, selfAddr, listingDocAddr, statusCode):
       """Set the 'docAddr' field of 'newListing' collection
       
-      Marking the 'newListing' as successfully created at 'Listing' collection """
+      Marking the 'newListing' as successfully created at 'Listing' collection by marking statusCode as CREATED (200)"""
       docRef = self.db.document(selfAddr)
 
       data = {
-        'isCreated'       : True,
+        'statusCode'      : statusCode,
         'listingDocAddr'  : listingDocAddr
       }
 
       docRef.update(data)
 
+    # ListingsCol 
     def getExistingListingURLs(self):
       """Returns a list of ExistingListingUrl obj which was updated at least 20 hours ago"""
       
@@ -68,12 +74,11 @@ class FsModule:
 
       return resList
 
-    # ListingsCol 
-    def createListing(self, listingName, listingID, listingUrl, listingImgURL, listingThumbURL, storeName, storeArea):
+    def createListing(self, l):
       """Write a new Listing Document given the initial data,
       then updates the existingListing document with new ListingDocAddr and listingURL
 
-      Returns the DocAddr of newly created ListingDoc"""
+      Returns the full DocAddr ("Listings/xxx") of newly created ListingDoc"""
       # Data sample 
         # {
         #   u'tags'         : [],
@@ -97,6 +102,9 @@ class FsModule:
         #   }
         # }
       
+      if type(l) is not ListingObj:
+        return None
+
       parentRef = self.db.collection(addr['Listings'])
 
       latestData = {
@@ -111,18 +119,18 @@ class FsModule:
       }
 
       payload = {
-        u'tags'         : utils.tagifyListingNameV2(listingName),
+        u'tags'         : utils.tagifyListingNameV2(l.listingName),
         u'stats'        : {
           u'activeTracking' : 0,
           u'bought'         : 0
         },
-        u'listingName'  : listingName,
-        u'listingID'    : listingID,
-        u'listingURL'   : listingUrl,
-        u'listingImgUrl': listingImgURL,
-        u'listingThumbUrl': listingThumbURL,
-        u'storeName'    : storeName,
-        u'storeArea'    : storeArea,
+        u'listingName'  : l.listingName,
+        u'listingID'    : l.listingID,
+        u'listingURL'   : l.listingURL,
+        u'listingImgUrl': l.listingImgURL,
+        u'listingThumbUrl': l.listingThumbURL,
+        u'storeName'    : l.storeName,
+        u'storeArea'    : l.storeArea,
         u'latestData'   : latestData
       }
 
@@ -171,6 +179,84 @@ class FsModule:
       parentRef = self.db.document(parentDocAddr)
       parentRef.update(latestData_dict)
 
+    def getListingDocAddrByID(self, listingID):
+      """Returns a String of ListingDoc Full Path given its ListingID
+      """
+      doc = self.db.collection(addr['Listings']).where('listingID', '==', listingID).get()
+
+      if not doc:
+        # Listing not found
+        return None
+      else:
+        return doc[0].reference.path
+
+    def getListingObjByAddr(self, addr):
+      doc = self.db.document(addr).get()
+      # doc.exists
+      data = doc.to_dict()
+
+      return ListingObj(
+        data['listingID'], 
+        data['listingName'],
+        0,0,0,0,0,
+        data['storeArea'],
+        data['storeName'],
+        data['listingURL'],
+        data['listingImgUrl'],
+        data['listingThumbUrl']
+      )
+    
+    def getListingLatestDataRowByAddr(self, addr):
+      doc = self.db.document(addr).collection("data").order_by("ts", direction=firestore.Query.DESCENDING).limit(1).get()
+
+      data = doc[0].to_dict()
+
+      return ListingDataRow(
+        data['sold'],
+        data['seen'],
+        data['stock'],
+        data['reviewCount'],
+        data['reviewScore'],
+        data['price'],
+        data['ts'])
+
+
+    # UserCol
+    def createTracking(self, uid, listingObj, listingDocID):
+      """Create a Tracking Document under given uid and based on given listingObj
+      
+      Will also update activeTrackingMetadata inside User's document"""
+      userDoc = self.db.document(f"Users/{uid}")
+
+      self._createActiveTracking(userDoc, listingObj, listingDocID)
+      self._addListingIDToActiveTrackingMetadata(userDoc, listingObj.listingID)
+
+    def _createActiveTracking(self, userDoc, lObj, listingDocID):
+      dataRow = lObj.dataRow
+      payload = {
+        u'listingDocID'      : listingDocID,
+        u'listingID'         : lObj.listingID, 
+        u'startDate'         : dataRow.ts,
+        u'startPrice'        : dataRow.price,
+        u'startStockCount'   : dataRow.stock, 
+        u'startSoldCount'    : dataRow.sold,
+        u'startSeenCount'    : dataRow.seen,
+        u'startReviewCount'  : dataRow.reviewCount,
+        u'startReviewScore'  : dataRow.reviewScore
+      }
+
+      parentRef = userDoc.collection("activeTrackings")
+
+      ref = parentRef.add(payload)
+
+      return ref[1].path
+
+    def _addListingIDToActiveTrackingMetadata(self, userDoc, listingID):
+      userDoc.update({
+        u'activeTrackingMetadata' : firestore.ArrayUnion([listingID])
+        })
+
+    # TOOLS
     def updateListingWithImgUrls(self, listingDocAddr, imgUrl, thumbUrl):
       """Updates existing ListingDoc with ImgURLs
 
@@ -183,7 +269,6 @@ class FsModule:
         u'listingThumbURL': thumbUrl
       }, merge=True)
 
-    # TOOLS
     def getAllExistingListingURLs(self):
       """Returns a list of ExistingListingUrl obj
       
