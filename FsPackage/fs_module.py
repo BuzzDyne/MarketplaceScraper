@@ -127,8 +127,8 @@ class FsModule:
         u'listingName'  : l.listingName,
         u'listingID'    : l.listingID,
         u'listingURL'   : l.listingURL,
-        u'listingImgUrl': l.listingImgURL,
-        u'listingThumbUrl': l.listingThumbURL,
+        u'listingImgURL': l.listingImgURL,
+        u'listingThumbURL': l.listingThumbURL,
         u'storeName'    : l.storeName,
         u'storeArea'    : l.storeArea,
         u'latestData'   : latestData
@@ -202,8 +202,8 @@ class FsModule:
         data['storeArea'],
         data['storeName'],
         data['listingURL'],
-        data['listingImgUrl'],
-        data['listingThumbUrl']
+        data['listingImgURL'],
+        data['listingThumbURL']
       )
     
     def getListingLatestDataRowByAddr(self, addr):
