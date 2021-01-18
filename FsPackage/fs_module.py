@@ -55,7 +55,8 @@ class FsModule:
 
       data = {
         'statusCode'      : statusCode,
-        'listingDocAddr'  : listingDocAddr
+        'listingDocAddr'  : listingDocAddr,
+        'responseTs'      : firestore.SERVER_TIMESTAMP
       }
 
       docRef.update(data)
