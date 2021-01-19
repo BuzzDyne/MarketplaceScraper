@@ -63,9 +63,10 @@ class FsModule:
 
     # ListingsCol 
     def getExistingListingURLs(self):
-      """Returns a list of ExistingListingUrl obj which was updated at least 20 hours ago"""
+      """Returns a list of ExistingListingUrl obj which hasnt been updated in current calendar day (GMT+7)"""
       
-      staleDataTS = datetime.now(tz=pytz.timezone('Asia/Jakarta')) + timedelta(hours=-20)
+      now = datetime.now(tz=pytz.timezone('Asia/Jakarta'))
+      staleDataTS = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
       docs = self.db.collection(addr['Listings']).where('latestData.ts', '<=', staleDataTS).get()
       resList = []
