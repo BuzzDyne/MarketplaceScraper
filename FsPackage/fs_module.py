@@ -222,7 +222,6 @@ class FsModule:
         data['price'],
         data['ts'])
 
-
     # UserCol
     def createTracking(self, uid, listingObj, listingDocID):
       """Create a Tracking Document under given uid and based on given listingObj
@@ -257,6 +256,10 @@ class FsModule:
       userDoc.update({
         u'activeTrackingMetadata' : firestore.ArrayUnion([listingID])
         })
+
+    def getFcmToken(self, uid):
+      userDoc = self.db.document(f"Users/{uid}").get()
+      return userDoc.to_dict()["fcmToken"]
 
     # TOOLS
     def updateListingWithImgUrls(self, listingDocAddr, imgUrl, thumbUrl):

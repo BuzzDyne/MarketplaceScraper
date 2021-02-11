@@ -7,6 +7,8 @@ from ScraperPackage.scraper_module import Scraper
 from ClientSimulatorPackage.client_simulator import ClientSimulator
 import ClientSimulatorPackage.utils as CspUtils
 
+from FcmPackage.fcm_module import FcmModule
+
 from app import App
 from tool import Tool
 
@@ -118,3 +120,16 @@ from tool import Tool
 # t.addImageURLToExistingListing()
 
 ################## End of Tool ##################
+################## Start of FCM ##################
+
+# f = FcmModule()
+
+# tokenAVD = 'dSqU9RxFSwOwmMv9NYP0no:APA91bGkTZIMkaqHdEuJuF3salJUc7CqRvHrCgfDxzr4-gdLVAhsXyRLiWyH16MkLOihDaqU_iOkk0YHrGLbL0J5hZSiDIqzyGWHmtEoRrQGxZTHACtdWK3ZmZd8HOI06mkzaX2Dvu7U'
+
+# tokenA51 = 'e-MqQhl2QmKRF1kZdq6Snh:APA91bENlXK-j3FXNb7WCyZ2oD1dNefvxNNQXAHxcgYUaH4TlWbwmovclScbP8hJdUyzavr3oXVfDooWHbEVb1EhRwEJbyjJJJjD-xSR5Toni-IGESi96d9TUTpZcmLPI0QkWtEydwtn'
+# title = "This is a title that you will see"
+# body = "This is the notification body that you will evantually see if you pay enough attention, right. Yeah!"
+
+# f.sendNotif(tokenA51, title, body)
+
+################## End of FCM ##################

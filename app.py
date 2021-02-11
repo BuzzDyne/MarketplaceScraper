@@ -6,6 +6,8 @@ from ScraperPackage.scraper_module import Scraper
 from ScraperPackage.scraper_status_code import ScraperStatusCode as STATUS
 from FsPackage.fs_module import FsModule
 from FsPackage.scraper_enum import ScraperStatusCode as SC
+from FcmPackage.fcm_module import FcmModule
+from DataModel.fs_package_model import User
 
 logFileName = datetime.now(tz=pytz.timezone('Asia/Jakarta')).strftime("%Y-%m")
 LOG_FORMAT = "%(levelname)s,%(asctime)s.%(msecs)03d,%(module)s<%(funcName)s>,%(message)s"
@@ -14,6 +16,7 @@ class App:
     def __init__(self):
         self.fs = FsModule()
         self.sc = Scraper()
+        self.fcm = FcmModule()
 
     def createNewListingData(self):
       """
@@ -39,9 +42,27 @@ class App:
         for obj in newListingUrls:
           lObj = self.sc.scrapeInitialListing(obj.url)
 
+          users_uid = obj.users
+
+          # Remove 'admin' from list
+          try:
+            users_uid.remove("admin")
+          except ValueError:
+            pass
+
+          users = []
+
+          # Get each user's FCM Token
+          for uid in users_uid:
+            users.append(User(uid, self.fs.getFcmToken(uid)))
+
           # (NOT_FOUND Check)
           if lObj.listingID is None:
             self.fs.setNewListingDocAddr(obj.selfDocAddr, None, SC.NOT_FOUND)
+
+            for u in users:
+              self.fcm.sendListingRequestResultNotif(u.fcmToken, SC.NOT_FOUND, obj.url)
+
             logging.info("Listing Not Found -- {} of {} (ListingURL:{})".format(i,newListingCount,obj.url))
             continue
 
@@ -54,26 +75,19 @@ class App:
             logging.info("Listing has existed  {} of {} (ListingDocPath:{})".format(i,newListingCount,listingDocPath))
 
             # For each User, set activeTracking's startData to latestDatarow
-            users_uid = obj.users
-
-            # Remove 'admin' from list
-            try:
-              users_uid.remove("admin")
-            except ValueError:
-              pass
-
             # Get ListingData and its latestDataRow
             listingDocID = listingDocPath.split('/')[-1]
             latestDataRow = self.fs.getListingLatestDataRowByAddr(listingDocPath)
             listingObj = self.fs.getListingObjByAddr(listingDocPath)
             listingObj.setDataRowByObj(latestDataRow)
 
-            userCount = len(users_uid)
+            userCount = len(users)
             logging.info("Found {} user to be processed...".format(userCount))
             i = 1
-            for uid in users_uid:
-              self.fs.createTracking(uid, listingObj, listingDocID)
-              logging.info("Processed user doc - {} of {} (uid:{})".format(i, userCount, uid))
+            for u in users:
+              self.fs.createTracking(u.uid, listingObj, listingDocID)
+              self.fcm.sendListingRequestResultNotif(u.fcmToken, SC.EXISTED, obj.url)
+              logging.info("Processed user doc - {} of {} (uid:{})".format(i, userCount, u.uid))
               i += 1
           # CREATED
           else:
@@ -84,26 +98,19 @@ class App:
             logging.info("Successfully scraped {} of {} (ListingID:{})".format(i, newListingCount, lObj.listingID))
 
             # For each User, set activeTracking's startData to latestDatarow
-            users_uid = obj.users
-
-            # Remove 'admin' from list
-            try:
-              users_uid.remove("admin")
-            except ValueError:
-              pass
-
             # Get ListingData and its latestDataRow
             listingDocID = listingDocPath.split('/')[-1]
             latestDataRow = self.fs.getListingLatestDataRowByAddr(listingDocPath)
             listingObj = self.fs.getListingObjByAddr(listingDocPath)
             listingObj.setDataRowByObj(latestDataRow)
 
-            userCount = len(users_uid)
+            userCount = len(users)
             logging.info("Found {} user to be processed...".format(userCount))
             i = 1
-            for uid in users_uid:
-              self.fs.createTracking(uid, listingObj, listingDocID)
-              logging.info("Processed user doc - {} of {} (uid:{})".format(i, userCount, uid))
+            for u in users:
+              self.fs.createTracking(u.uid, listingObj, listingDocID)
+              self.fcm.sendListingRequestResultNotif(u.fcmToken, SC.CREATED, obj.url)
+              logging.info("Processed user doc - {} of {} (uid:{})".format(i, userCount, u.uid))
               i += 1
 
         i += 1

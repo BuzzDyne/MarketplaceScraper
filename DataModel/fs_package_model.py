@@ -58,3 +58,7 @@ class NewListingUrl():
             u'statusCode'   : self.statusCode
         }
 
+class User():
+    def __init__(self, uid, fcmToken=None):
+        self.uid        = uid
+        self.fcmToken   = fcmToken
