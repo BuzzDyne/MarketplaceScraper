@@ -300,3 +300,26 @@ class FsModule:
         x.set({
           u'listingID'  : str(doc.listingID)
         }, merge=True)
+
+    def listingActiveTrackingToActiveTracker(self):
+      """Swap ALL LISTING's activeTracking(number) field to activeTracker(array of string)
+      
+      Was only used for 'Tools'"""
+      docs = self.db.collection("Listings").get()
+
+      i = 1
+      iTotal = len(docs)
+
+      for doc in docs:
+        print(f"Processing {i}/{iTotal} {doc.reference.path}... ", end="")
+        
+        doc.reference.update({
+          'stats.activeTracking'  : firestore.DELETE_FIELD,
+          'stats.activeTracker'   : [],
+          'storeArea'             : firestore.DELETE_FIELD
+        })
+
+        i += 1
+
+        print("Done")
+      
